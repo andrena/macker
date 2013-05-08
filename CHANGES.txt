@@ -1,7 +1,8 @@
-VERSION HISTORY
+Version 1.0.0:
+* Mavenized
+* Moved from BCEL to Javassist to be able to work with Java 7 + 8
 
-version 0.4.1.1:
-    - moved to Javassist
+Below is the version history before forking the project from http://sourceforge.net/p/macker/code/HEAD/tree/tags/macker-0_4_1/macker/
 
 version 0.4:
     - filters allow patterns to match on supertypes and basic class attributes
