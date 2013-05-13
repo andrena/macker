@@ -17,7 +17,7 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule;
 
 import de.andrena.tools.macker.event.ListenerException;
@@ -25,42 +25,37 @@ import de.andrena.tools.macker.event.MackerIsMadException;
 import de.andrena.tools.macker.event.MessageEvent;
 import de.andrena.tools.macker.structure.ClassManager;
 
-public class Message
-    extends Rule
-    {
-    //--------------------------------------------------------------------------
-    // Constructors
-    //--------------------------------------------------------------------------
+public class Message extends Rule {
+	// --------------------------------------------------------------------------
+	// Constructors
+	// --------------------------------------------------------------------------
 
-    public Message(RuleSet parent, String message)
-        {
-        super(parent);
-        this.message = message;
-        setSeverity(RuleSeverity.INFO);
-        }
-    
-    //--------------------------------------------------------------------------
-    // Properties
-    //--------------------------------------------------------------------------
+	public Message(RuleSet parent, String message) {
+		super(parent);
+		this.message = message;
+		setSeverity(RuleSeverity.INFO);
+	}
 
-    public String getMessage()
-        { return message; }
-    
-    public void setMessage(String message)
-        { this.message = message; }
-    
-    private String message;
+	// --------------------------------------------------------------------------
+	// Properties
+	// --------------------------------------------------------------------------
 
-    //--------------------------------------------------------------------------
-    // Evaluation
-    //--------------------------------------------------------------------------
+	public String getMessage() {
+		return message;
+	}
 
-    public void check(EvaluationContext context, ClassManager classes)
-        throws RulesException, MackerIsMadException, ListenerException
-        {
-        context.broadcastEvent(
-            new MessageEvent(
-                this,
-                VariableParser.parse(context, getMessage())));
-        }
-    }
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	private String message;
+
+	// --------------------------------------------------------------------------
+	// Evaluation
+	// --------------------------------------------------------------------------
+
+	public void check(EvaluationContext context, ClassManager classes) throws RulesException, MackerIsMadException,
+			ListenerException {
+		context.broadcastEvent(new MessageEvent(this, VariableParser.parse(context, getMessage())));
+	}
+}

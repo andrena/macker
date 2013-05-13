@@ -17,19 +17,17 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.util;
 
 import de.andrena.tools.macker.rule.RulesException;
 
-public interface IncludeExcludeNode
-    {
-    public boolean isInclude();
+public interface IncludeExcludeNode {
+	public boolean isInclude();
 
-    public boolean matches()
-        throws RulesException;
-    
-    public IncludeExcludeNode getChild();
-    
-    public IncludeExcludeNode getNext();
-    }
+	public boolean matches() throws RulesException;
+
+	public IncludeExcludeNode getChild();
+
+	public IncludeExcludeNode getNext();
+}

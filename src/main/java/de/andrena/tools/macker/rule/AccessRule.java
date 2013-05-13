@@ -17,11 +17,11 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule;
 
-
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 import de.andrena.tools.macker.event.AccessRuleViolation;
 import de.andrena.tools.macker.event.ListenerException;
@@ -30,145 +30,135 @@ import de.andrena.tools.macker.structure.ClassInfo;
 import de.andrena.tools.macker.structure.ClassManager;
 import de.andrena.tools.macker.util.IncludeExcludeLogic;
 import de.andrena.tools.macker.util.IncludeExcludeNode;
+import de.andrena.tools.macker.util.collect.MultiMap;
 
-import net.innig.collect.MultiMap;
+public class AccessRule extends Rule {
+	// --------------------------------------------------------------------------
+	// Constructors
+	// --------------------------------------------------------------------------
 
-public class AccessRule
-    extends Rule
-    {
-    //--------------------------------------------------------------------------
-    // Constructors
-    //--------------------------------------------------------------------------
+	public AccessRule(RuleSet parent) {
+		super(parent);
+		type = AccessRuleType.DENY;
+		from = to = Pattern.ALL;
+	}
 
-    public AccessRule(RuleSet parent)
-        {
-        super(parent);
-        type = AccessRuleType.DENY;
-        from = to = Pattern.ALL;
-        }
-    
-    //--------------------------------------------------------------------------
-    // Properties
-    //--------------------------------------------------------------------------
+	// --------------------------------------------------------------------------
+	// Properties
+	// --------------------------------------------------------------------------
 
-    public AccessRuleType getType()
-        { return type; }
-    
-    public void setType(AccessRuleType type)
-        {
-        if(type == null)
-            throw new NullPointerException("type parameter cannot be null");
-        this.type = type;
-        }
-    
-    public Pattern getFrom()
-        { return from; }
-    
-    public void setFrom(Pattern from)
-        { this.from = from; }
-    
-    public String getMessage()
-        { return message; }
-    
-    public void setMessage(String message)
-        { this.message = message; }
+	public AccessRuleType getType() {
+		return type;
+	}
 
-    public Pattern getTo()
-        { return to; }
-    
-    public void setTo(Pattern to)
-        { this.to = to; }
-    
-    public AccessRule getChild()
-        { return child; }
-    
-    public void setChild(AccessRule child)
-        { this.child = child; }
-    
-    public AccessRule getNext()
-        { return next; }
-    
-    public void setNext(AccessRule next)
-        { this.next = next; }
-    
-    private AccessRuleType type;
-    private Pattern from, to;
-    private String message;
-    private boolean bound;
-    private AccessRule child, next;
+	public void setType(AccessRuleType type) {
+		if (type == null)
+			throw new NullPointerException("type parameter cannot be null");
+		this.type = type;
+	}
 
-    //--------------------------------------------------------------------------
-    // Evaluation
-    //--------------------------------------------------------------------------
+	public Pattern getFrom() {
+		return from;
+	}
 
-    public void check(EvaluationContext context, ClassManager classes)
-        throws RulesException, MackerIsMadException, ListenerException
-        {
-        EvaluationContext localContext = new EvaluationContext(context);
-        for(Iterator refIter = classes.getReferences().entrySet().iterator(); refIter.hasNext(); )
-            {
-            MultiMap.Entry entry = (MultiMap.Entry) refIter.next();
-            ClassInfo from = (ClassInfo) entry.getKey();
-            ClassInfo to   = (ClassInfo) entry.getValue();
-            if(from.equals(to))
-                continue;
-            if(!localContext.getRuleSet().isInSubset(localContext, from))
-                continue;
+	public void setFrom(Pattern from) {
+		this.from = from;
+	}
 
-            localContext.setVariableValue("from", from.getClassName());
-            localContext.setVariableValue("to",     to.getClassName());
-            localContext.setVariableValue("from-package", from.getPackageName());
-            localContext.setVariableValue("to-package",     to.getPackageName());
-            localContext.setVariableValue("from-full", from.getFullName());
-            localContext.setVariableValue("to-full",     to.getFullName());
+	public String getMessage() {
+		return message;
+	}
 
-            if(!checkAccess(localContext, from, to))
-                {
-                List messages;
-                if(getMessage() == null)
-                    messages = Collections.EMPTY_LIST;
-                else
-                    messages = Collections.singletonList(
-                        VariableParser.parse(localContext, getMessage()));
-                
-                context.broadcastEvent(
-                    new AccessRuleViolation(this, from, to, messages));
-                }
-            }
-        }
-    
-    public boolean checkAccess(EvaluationContext context, ClassInfo fromClass, ClassInfo toClass)
-        throws RulesException
-        { return IncludeExcludeLogic.apply(makeIncludeExcludeNode(this, context, fromClass, toClass)); }
-    
-    private static IncludeExcludeNode makeIncludeExcludeNode(
-            final AccessRule rule,
-            final EvaluationContext context,
-            final ClassInfo fromClass,
-            final ClassInfo toClass)
-        {
-        return (rule == null)
-            ? null
-            : new IncludeExcludeNode()
-                {
-                public boolean isInclude()
-                    { return rule.getType() == AccessRuleType.ALLOW; }
-        
-                public boolean matches()
-                    throws RulesException
-                    {
-                    return rule.getFrom().matches(context, fromClass)
-                        && rule.  getTo().matches(context, toClass);
-                    }
-                
-                public IncludeExcludeNode getChild()
-                    { return makeIncludeExcludeNode(rule.getChild(), context, fromClass, toClass); }
-                
-                public IncludeExcludeNode getNext()
-                    { return makeIncludeExcludeNode(rule.getNext(), context, fromClass, toClass); }
-                };
-        }
-    }
+	public void setMessage(String message) {
+		this.message = message;
+	}
 
+	public Pattern getTo() {
+		return to;
+	}
 
+	public void setTo(Pattern to) {
+		this.to = to;
+	}
 
+	public AccessRule getChild() {
+		return child;
+	}
+
+	public void setChild(AccessRule child) {
+		this.child = child;
+	}
+
+	public AccessRule getNext() {
+		return next;
+	}
+
+	public void setNext(AccessRule next) {
+		this.next = next;
+	}
+
+	private AccessRuleType type;
+	private Pattern from, to;
+	private String message;
+	private AccessRule child, next;
+
+	// --------------------------------------------------------------------------
+	// Evaluation
+	// --------------------------------------------------------------------------
+
+	@Override
+	public void check(EvaluationContext context, ClassManager classes) throws RulesException, MackerIsMadException,
+			ListenerException {
+		EvaluationContext localContext = new EvaluationContext(context);
+		for (MultiMap.Entry<ClassInfo, ClassInfo> reference : classes.getReferences().entrySet()) {
+			ClassInfo from = reference.getKey();
+			ClassInfo to = reference.getValue();
+			if (from.equals(to))
+				continue;
+			if (!localContext.getRuleSet().isInSubset(localContext, from))
+				continue;
+
+			localContext.setVariableValue("from", from.getClassName());
+			localContext.setVariableValue("to", to.getClassName());
+			localContext.setVariableValue("from-package", from.getPackageName());
+			localContext.setVariableValue("to-package", to.getPackageName());
+			localContext.setVariableValue("from-full", from.getFullName());
+			localContext.setVariableValue("to-full", to.getFullName());
+
+			if (!checkAccess(localContext, from, to)) {
+				List<String> messages;
+				if (getMessage() == null)
+					messages = Collections.emptyList();
+				else
+					messages = Collections.singletonList(VariableParser.parse(localContext, getMessage()));
+				context.broadcastEvent(new AccessRuleViolation(this, from, to, messages));
+			}
+		}
+	}
+
+	private boolean checkAccess(EvaluationContext context, ClassInfo fromClass, ClassInfo toClass)
+			throws RulesException {
+		return IncludeExcludeLogic.apply(makeIncludeExcludeNode(this, context, fromClass, toClass));
+	}
+
+	static IncludeExcludeNode makeIncludeExcludeNode(final AccessRule rule, final EvaluationContext context,
+			final ClassInfo fromClass, final ClassInfo toClass) {
+		return (rule == null) ? null : new IncludeExcludeNode() {
+			public boolean isInclude() {
+				return rule.getType() == AccessRuleType.ALLOW;
+			}
+
+			public boolean matches() throws RulesException {
+				return rule.getFrom().matches(context, fromClass) && rule.getTo().matches(context, toClass);
+			}
+
+			public IncludeExcludeNode getChild() {
+				return makeIncludeExcludeNode(rule.getChild(), context, fromClass, toClass);
+			}
+
+			public IncludeExcludeNode getNext() {
+				return makeIncludeExcludeNode(rule.getNext(), context, fromClass, toClass);
+			}
+		};
+	}
+}

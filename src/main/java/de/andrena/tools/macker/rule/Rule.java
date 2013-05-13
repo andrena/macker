@@ -17,39 +17,38 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule;
 
 import de.andrena.tools.macker.event.ListenerException;
 import de.andrena.tools.macker.event.MackerIsMadException;
 import de.andrena.tools.macker.structure.ClassManager;
 
-public abstract class Rule
-    {
-    public Rule(RuleSet parent)
-        { this.parent = parent; }
-    
-    public RuleSet getParent()
-        { return parent; }
+public abstract class Rule {
+	public Rule(RuleSet parent) {
+		this.parent = parent;
+	}
 
-    public RuleSeverity getSeverity()
-        {
-        if(severity != null)
-            return severity;
-        else if(parent != null)
-            return parent.getSeverity();
-        else
-            return RuleSeverity.ERROR;
-        }
+	public RuleSet getParent() {
+		return parent;
+	}
 
-    public void setSeverity(RuleSeverity severity)
-        { this.severity = severity; }
+	public RuleSeverity getSeverity() {
+		if (severity != null)
+			return severity;
+		else if (parent != null)
+			return parent.getSeverity();
+		else
+			return RuleSeverity.ERROR;
+	}
 
-    public abstract void check(
-            EvaluationContext context,
-            ClassManager classes)
-        throws RulesException, MackerIsMadException, ListenerException;
+	public void setSeverity(RuleSeverity severity) {
+		this.severity = severity;
+	}
 
-    private RuleSet parent;
-    private RuleSeverity severity;
-    }
+	public abstract void check(EvaluationContext context, ClassManager classes) throws RulesException,
+			MackerIsMadException, ListenerException;
+
+	private RuleSet parent;
+	private RuleSeverity severity;
+}

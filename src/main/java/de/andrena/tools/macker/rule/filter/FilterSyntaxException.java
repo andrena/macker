@@ -17,22 +17,20 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule.filter;
 
 import de.andrena.tools.macker.rule.RulesException;
 
-public class FilterSyntaxException
-    extends RulesException
-    {
-    public FilterSyntaxException(Filter filter, String message)
-        {
-        super(message);
-        this.filter = filter;
-        }
-    
-    public Filter getFilter()
-        { return filter; }
-    
-    private final Filter filter;
-    }
+public class FilterSyntaxException extends RulesException {
+	public FilterSyntaxException(Filter filter, String message) {
+		super(message);
+		this.filter = filter;
+	}
+
+	public Filter getFilter() {
+		return filter;
+	}
+
+	private final Filter filter;
+}

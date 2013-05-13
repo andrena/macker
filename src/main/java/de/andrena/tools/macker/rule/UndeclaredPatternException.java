@@ -17,12 +17,11 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule;
 
-public class UndeclaredPatternException
-    extends RulesException
-    {
-    public UndeclaredPatternException(String patternName)
-        { super("Pattern named \"" + patternName + "\" not declared"); }
-    }
+public class UndeclaredPatternException extends RulesException {
+	public UndeclaredPatternException(String patternName) {
+		super("Pattern named \"" + patternName + "\" not declared");
+	}
+}

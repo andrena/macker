@@ -89,9 +89,9 @@
 			<version>3.17.1-GA</version>
 		</dependency>
 		<dependency>
-			<groupId>innig</groupId>
-			<artifactId>innig-util</artifactId>
-			<version>0.4.2</version>
+			<groupId>ant</groupId>
+			<artifactId>ant</artifactId>
+			<version>1.5</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -111,7 +111,7 @@
 		<dependency>
 			<groupId>jdom</groupId>
 			<artifactId>jdom</artifactId>
-			<version>1.0b8</version>
+			<version>1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>xalan</groupId>

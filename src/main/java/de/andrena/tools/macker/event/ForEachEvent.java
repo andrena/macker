@@ -17,24 +17,22 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.event;
 
-import java.util.*;
+import java.util.ArrayList;
 
 import de.andrena.tools.macker.rule.ForEach;
 
-public class ForEachEvent
-    extends MackerEvent
-    {
-    public ForEachEvent(ForEach forEach, String description)
-        {
-        super(forEach, description, Collections.EMPTY_LIST);
-        this.forEach = forEach;
-        }
-    
-    public ForEach getForEach()
-        { return forEach; }
-    
-    private ForEach forEach;
-    }
+public class ForEachEvent extends MackerEvent {
+	public ForEachEvent(ForEach forEach, String description) {
+		super(forEach, description, new ArrayList<String>());
+		this.forEach = forEach;
+	}
+
+	public ForEach getForEach() {
+		return forEach;
+	}
+
+	private ForEach forEach;
+}

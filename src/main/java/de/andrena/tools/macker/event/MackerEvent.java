@@ -17,64 +17,62 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.event;
 
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EventObject;
+import java.util.List;
 
 import de.andrena.tools.macker.rule.Rule;
 import de.andrena.tools.macker.rule.RuleSeverity;
 
-public class MackerEvent
-    extends EventObject
-    {
-    public MackerEvent(
-            Rule rule,
-            String description,
-            List/*<String>*/ messages)
-        {
-        super(rule);
-        this.rule = rule;
-        this.description = description;
-        this.messages = Collections.unmodifiableList(new ArrayList(messages));
-        }
-    
-    public Rule getRule()
-        { return rule; }
-        
-    public String getDescription()
-        { return description; }
-        
-    public List/*<String>*/ getMessages()
-        { return messages; }
-    
-    public String toString()
-        { return getDescription(); }
-    
-    public String toStringVerbose()
-        {
-        //! This is completely crappy -- the PrintingListener probably should be the one to deal with this
-        final String CR = System.getProperty("line.separator");
-        StringBuffer s = new StringBuffer();
-        if(rule.getSeverity() != RuleSeverity.ERROR)
-            {
-            s.append(rule.getSeverity().getName().toUpperCase());
-            s.append(": ");
-            }
-        for(Iterator i = messages.iterator(); i.hasNext(); )
-            {
-            s.append(i.next().toString());
-            s.append(CR);
-            }
-        if(getDescription() != null)
-            s.append(getDescription());
-        s.append(CR);
-        return s.toString();
-        }
-    
-    private final Rule rule;
-    private final String description;
-    private final List/*<String>*/ messages;
-    }
+public class MackerEvent extends EventObject {
+	public MackerEvent(Rule rule, String description, List<String> messages) {
+		super(rule);
+		this.rule = rule;
+		this.description = description;
+		this.messages = Collections.unmodifiableList(new ArrayList<String>(messages));
+	}
 
+	public Rule getRule() {
+		return rule;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public List<String> getMessages() {
+		return messages;
+	}
+
+	@Override
+	public String toString() {
+		return getDescription();
+	}
+
+	public String toStringVerbose() {
+		// ! This is completely crappy -- the PrintingListener probably should
+		// be the one to deal with this
+		final String CR = System.getProperty("line.separator");
+		StringBuffer s = new StringBuffer();
+		if (rule.getSeverity() != RuleSeverity.ERROR) {
+			s.append(rule.getSeverity().getName().toUpperCase());
+			s.append(": ");
+		}
+		for (String msg : messages) {
+			s.append(msg);
+			s.append(CR);
+		}
+		if (getDescription() != null)
+			s.append(getDescription());
+		s.append(CR);
+		return s.toString();
+	}
+
+	private final Rule rule;
+	private final String description;
+	private final List<String> messages;
+}

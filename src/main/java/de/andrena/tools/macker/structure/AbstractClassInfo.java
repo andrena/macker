@@ -20,97 +20,73 @@
 
 package de.andrena.tools.macker.structure;
 
-import net.innig.collect.GraphWalker;
-import net.innig.collect.Graphs;
-import net.innig.collect.MultiMap;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class AbstractClassInfo
-        implements ClassInfo {
-    public AbstractClassInfo(ClassManager classManager) {
-        this.classManager = classManager;
-    }
+import de.andrena.tools.macker.util.collect.GraphWalker;
+import de.andrena.tools.macker.util.collect.Graphs;
 
-    public String getClassName() {
-        String className = getFullName();
-        return className.substring(className.lastIndexOf('.') + 1);
-    }
+public abstract class AbstractClassInfo implements ClassInfo {
+	public AbstractClassInfo(ClassManager classManager) {
+		this.classManager = classManager;
+	}
 
-    public String getPackageName() {
-        String className = getFullName();
-        int lastDotPos = className.lastIndexOf('.');
-        return (lastDotPos > 0) ? className.substring(0, lastDotPos) : "";
-    }
+	public String getClassName() {
+		String className = getFullName();
+		return className.substring(className.lastIndexOf('.') + 1);
+	}
 
-    public Set/*<ClassInfo>*/ getDirectSupertypes() {
-        if (cachedAllDirectSuper == null) {
-            Set newAllDirectSuper = new HashSet(getImplements());
-            newAllDirectSuper.add(getExtends());
-            cachedAllDirectSuper = newAllDirectSuper; // failure atomicity
-        }
-        return cachedAllDirectSuper;
-    }
+	public String getPackageName() {
+		String className = getFullName();
+		int lastDotPos = className.lastIndexOf('.');
+		return (lastDotPos > 0) ? className.substring(0, lastDotPos) : "";
+	}
 
-    public Set/*<ClassInfo>*/ getSupertypes() {
-        if (cachedAllSuper == null)
-            cachedAllSuper = Graphs.reachableNodes(
-                    this,
-                    new GraphWalker() {
-                        public Collection getEdgesFrom(Object node) {
-                            return ((ClassInfo) node).getDirectSupertypes();
-                        }
-                    });
-        return cachedAllSuper;
-    }
+	public Set<ClassInfo> getDirectSupertypes() {
+		if (cachedAllDirectSuper == null) {
+			Set<ClassInfo> newAllDirectSuper = new HashSet<ClassInfo>(getImplements());
+			newAllDirectSuper.add(getExtends());
+			cachedAllDirectSuper = newAllDirectSuper; // failure atomicity
+		}
+		return cachedAllDirectSuper;
+	}
 
-    public final ClassManager getClassManager() {
-        return classManager;
-    }
+	public Set<ClassInfo> getSupertypes() {
+		if (cachedAllSuper == null)
+			cachedAllSuper = Graphs.reachableNodes(this, new GraphWalker<ClassInfo>() {
+				public Collection<ClassInfo> getEdgesFrom(ClassInfo node) {
+					return node.getDirectSupertypes();
+				}
+			});
+		return cachedAllSuper;
+	}
 
-    public abstract boolean isComplete();
+	public final ClassManager getClassManager() {
+		return classManager;
+	}
 
-    public abstract String getFullName();
+	@Override
+	public final boolean equals(Object that) {
+		if (this == that)
+			return true;
+		if (that == null)
+			return false;
+		if (!(that instanceof ClassInfo))
+			return false;
+		return getFullName().equals(((ClassInfo) that).getFullName());
+	}
 
-    public abstract boolean isInterface();
+	@Override
+	public final int hashCode() {
+		return getFullName().hashCode();
+	}
 
-    public abstract boolean isAbstract();
+	@Override
+	public String toString() {
+		return getFullName();
+	}
 
-    public abstract boolean isFinal();
-
-    public abstract AccessModifier getAccessModifier();
-
-    public abstract ClassInfo getExtends();
-
-    public abstract Set/*<ClassInfo>*/ getImplements();
-
-    public abstract MultiMap/*<ClassInfo,Reference>*/ getReferences();
-
-    public int compareTo(Object that) {
-        return getFullName().compareTo(((ClassInfo) that).getFullName());
-    }
-
-    public final boolean equals(Object that) {
-        if (this == that)
-            return true;
-        if (that == null)
-            return false;
-        if (!(that instanceof ClassInfo))
-            return false;
-        return getFullName().equals(((ClassInfo) that).getFullName());
-    }
-
-    public final int hashCode() {
-        return getFullName().hashCode();
-    }
-
-    public String toString() {
-        return getFullName();
-    }
-
-    private ClassManager classManager;
-    private Set cachedAllSuper, cachedAllDirectSuper;
+	private ClassManager classManager;
+	private Set<ClassInfo> cachedAllSuper, cachedAllDirectSuper;
 }
-

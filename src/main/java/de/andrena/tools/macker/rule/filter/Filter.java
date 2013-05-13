@@ -17,19 +17,17 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule.filter;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
-import de.andrena.tools.macker.rule.*;
+import de.andrena.tools.macker.rule.Pattern;
+import de.andrena.tools.macker.rule.RuleSet;
+import de.andrena.tools.macker.rule.RulesException;
 
-public interface Filter
-    {
-    public Pattern createPattern(
-            RuleSet ruleSet,
-            List/*<Pattern>*/ params,
-            Map/*<String,String>*/ options)
-        throws RulesException;
-    }
+public interface Filter {
+	public Pattern createPattern(RuleSet ruleSet, List<Pattern> params, Map<String, String> options)
+			throws RulesException;
+}

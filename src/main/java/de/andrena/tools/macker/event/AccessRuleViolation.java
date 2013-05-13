@@ -17,44 +17,36 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
-package de.andrena.tools.macker.event;
 
+package de.andrena.tools.macker.event;
 
 import java.util.List;
 
 import de.andrena.tools.macker.rule.AccessRule;
 import de.andrena.tools.macker.structure.ClassInfo;
 
-public class AccessRuleViolation
-    extends MackerEvent
-    {
-    public AccessRuleViolation(
-            AccessRule accessRule,
-            ClassInfo from,
-            ClassInfo to,
-            List/*<String>*/ messages)
-        {
-        super(accessRule,
-            "Illegal reference" + CR //! hokey, hokey, hokey!
-            + "  from " + from + CR
-            + "    to " + to,
-            messages);
-        this.accessRule = accessRule;
-        this.from = from;
-        this.to = to;
-        }
-    
-    public final AccessRule getAccessRule()
-        { return accessRule; }
-    
-    public final ClassInfo getFrom()
-        { return from; }
-        
-    public final ClassInfo getTo()
-        { return to; }
-    
-    private final AccessRule accessRule;
-    private final ClassInfo from, to;
-    private static final String CR = System.getProperty("line.separator");
-    }
+public class AccessRuleViolation extends MackerEvent {
+	public AccessRuleViolation(AccessRule accessRule, ClassInfo from, ClassInfo to, List<String> messages) {
+		super(accessRule, "Illegal reference" + CR // ! hokey, hokey, hokey!
+				+ "  from " + from + CR + "    to " + to, messages);
+		this.accessRule = accessRule;
+		this.from = from;
+		this.to = to;
+	}
+
+	public final AccessRule getAccessRule() {
+		return accessRule;
+	}
+
+	public final ClassInfo getFrom() {
+		return from;
+	}
+
+	public final ClassInfo getTo() {
+		return to;
+	}
+
+	private final AccessRule accessRule;
+	private final ClassInfo from, to;
+	private static final String CR = System.getProperty("line.separator");
+}

@@ -17,26 +17,24 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.structure;
 
 import javassist.CtClass;
-import org.apache.bcel.classfile.*;
-
-import org.apache.commons.lang.exception.NestableException;
 
 /**
-    A class file was found, but was unparsable.
-*/
-public class ClassParseException
-    extends NestableException
-    {
-    public ClassParseException(String message)
-        { super(message); }
-        
-    public ClassParseException(String message, CtClass classFile)
-        { super(message + "\n" + classFile); }
-        
-    public ClassParseException(ClassFormatError cfe)
-        { super(cfe); }
-    }
+ * A class file was found, but was unparsable.
+ */
+public class ClassParseException extends Exception {
+	public ClassParseException(String message) {
+		super(message);
+	}
+
+	public ClassParseException(String message, CtClass classFile) {
+		super(message + "\n" + classFile);
+	}
+
+	public ClassParseException(ClassFormatError cfe) {
+		super(cfe);
+	}
+}

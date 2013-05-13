@@ -17,48 +17,63 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.structure;
 
 import java.util.Set;
-import net.innig.collect.MultiMap;
+
+import de.andrena.tools.macker.util.collect.MultiMap;
 
 /**
-    Class info for a class which Macker couldn't load.  Attempts to get attributes other than
-    the name throw {@link IncompleteClassInfoException}.
-*/
-public class IncompleteClassInfo
-    extends AbstractClassInfo
-    {
-    IncompleteClassInfo(ClassManager classManager, String className)
-        {
-        super(classManager);
-        this.className = className;
-        }
-    
-    public String getFullName()
-        { return className; }
+ * Class info for a class which Macker couldn't load. Attempts to get attributes
+ * other than the name throw {@link IncompleteClassInfoException}.
+ */
+public class IncompleteClassInfo extends AbstractClassInfo {
+	IncompleteClassInfo(ClassManager classManager, String className) {
+		super(classManager);
+		this.className = className;
+	}
 
-    public boolean isComplete()
-        { return false; }
-    
-    public boolean isInterface()               { throw newIncompleteException("get \"interface\" attribute of"); }
-    public boolean isAbstract()                { throw newIncompleteException("get \"abstract\" attribute of"); }
-    public boolean isFinal()                   { throw newIncompleteException("get \"final\" attribute of"); }
-    public AccessModifier getAccessModifier()  { throw newIncompleteException("determine accessibility of"); }
-    public ClassInfo getExtends()              { throw newIncompleteException("determine superclass of"); }
-    public Set/*<String>*/ getImplements()     { throw newIncompleteException("determine interfaces implemented by"); }
-    public MultiMap getReferences()            { throw newIncompleteException("resolve references from"); }
-    
-    private IncompleteClassInfoException newIncompleteException(String action)
-        {
-        return new IncompleteClassInfoException(
-            "Unable to " + action + " class " + className
-            + ", because the class file could not be loaded."
-            + " Make sure it is in Macker's classpath.");
-        }
-    
-    private String className;
-    }
+	public String getFullName() {
+		return className;
+	}
 
+	public boolean isComplete() {
+		return false;
+	}
 
+	public boolean isInterface() {
+		throw newIncompleteException("get \"interface\" attribute of");
+	}
+
+	public boolean isAbstract() {
+		throw newIncompleteException("get \"abstract\" attribute of");
+	}
+
+	public boolean isFinal() {
+		throw newIncompleteException("get \"final\" attribute of");
+	}
+
+	public AccessModifier getAccessModifier() {
+		throw newIncompleteException("determine accessibility of");
+	}
+
+	public ClassInfo getExtends() {
+		throw newIncompleteException("determine superclass of");
+	}
+
+	public Set<ClassInfo> getImplements() {
+		throw newIncompleteException("determine interfaces implemented by");
+	}
+
+	public MultiMap<ClassInfo, Reference> getReferences() {
+		throw newIncompleteException("resolve references from");
+	}
+
+	private IncompleteClassInfoException newIncompleteException(String action) {
+		return new IncompleteClassInfoException("Unable to " + action + " class " + className
+				+ ", because the class file could not be loaded." + " Make sure it is in Macker's classpath.");
+	}
+
+	private String className;
+}

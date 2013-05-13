@@ -17,26 +17,13 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.structure;
 
-import net.innig.util.OrderedType;
-
 /**
-    Java access modifiers for classes and members.
-    Ordered by increasing visibility.
-*/
-public class AccessModifier
-    extends OrderedType
-    {
-    public static final AccessModifier
-        PRIVATE   = new AccessModifier("private"),
-        PACKAGE   = new AccessModifier("package"),
-        PROTECTED = new AccessModifier("protected"),
-        PUBLIC    = new AccessModifier("public");
-    
-    public static AccessModifier fromName(String name)
-        { return (AccessModifier) resolveFromName(AccessModifier.class, name); }
-    
-    private AccessModifier(String name) { super(name); }
-    }
+ * Java access modifiers for classes and members. Ordered by increasing
+ * visibility.
+ */
+public enum AccessModifier {
+	PRIVATE, PACKAGE, PROTECTED, PUBLIC;
+}

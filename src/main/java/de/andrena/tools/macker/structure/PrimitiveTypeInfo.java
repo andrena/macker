@@ -17,65 +17,82 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.structure;
 
-import java.util.*;
-import net.innig.collect.InnigCollections;
-import net.innig.collect.MultiMap;
-import net.innig.util.EnumeratedType;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.Set;
+
+import de.andrena.tools.macker.util.collect.InnigCollections;
+import de.andrena.tools.macker.util.collect.MultiMap;
 
 /**
-    Hard-coded class info for Java's primitive types.
-*/
-public final class PrimitiveTypeInfo
-    extends EnumeratedType
-    implements ClassInfo
-    {
-    public static PrimitiveTypeInfo getPrimitiveTypeInfo(String typeName)
-        { return (PrimitiveTypeInfo) EnumeratedType.resolveFromName(PrimitiveTypeInfo.class, typeName); }
-    
-    public static final PrimitiveTypeInfo
-        BYTE    = new PrimitiveTypeInfo("byte"),
-        SHORT   = new PrimitiveTypeInfo("short"),
-        INT     = new PrimitiveTypeInfo("int"),
-        LONG    = new PrimitiveTypeInfo("long"),
-        CHAR    = new PrimitiveTypeInfo("char"),
-        BOOLEAN = new PrimitiveTypeInfo("boolean"),
-        FLOAT   = new PrimitiveTypeInfo("float"),
-        DOUBLE  = new PrimitiveTypeInfo("double"),
-        VOID    = new PrimitiveTypeInfo("void");
-    
-    public static final Set/*<PrimitiveTypeInfo>*/ ALL =
-        EnumeratedType.allTypes(PrimitiveTypeInfo.class);
+ * Hard-coded class info for Java's primitive types.
+ */
+public enum PrimitiveTypeInfo implements ClassInfo {
+	BYTE, SHORT, INT, LONG, CHAR, BOOLEAN, FLOAT, DOUBLE, VOID;
 
-    private PrimitiveTypeInfo(String className)
-        { super(className); }
-    
-    public ClassManager getClassManager()
-        { return null; }
-    
-    public boolean isComplete()
-        { return true; }
-    
-    public String getFullName()      { return getName(); }
-    public String getClassName() { return getName(); }
-    public String getPackageName()    { return null; }
-    
-    public boolean isInterface() { return false; }
-    public boolean isAbstract()  { return false; }
-    public boolean isFinal()     { return true; }
-    public AccessModifier getAccessModifier() { return AccessModifier.PUBLIC; }
-    
-    public ClassInfo getExtends()                   { return null; }
-    public Set/*<ClassInfo>*/ getImplements()       { return Collections.EMPTY_SET; }
-    public Set/*<ClassInfo>*/ getDirectSupertypes() { return Collections.EMPTY_SET; }
-    public Set/*<ClassInfo>*/ getSupertypes()       { return Collections.EMPTY_SET; }
-    public MultiMap/*<ClassInfo,Reference>*/ getReferences()
-        { return InnigCollections.EMPTY_MULTIMAP; }
-    
-    public int compareTo(Object that)
-        { return getFullName().compareTo(((ClassInfo) that).getFullName()); }
-    }
+	public static final Set<PrimitiveTypeInfo> ALL = Collections
+			.unmodifiableSet(EnumSet.allOf(PrimitiveTypeInfo.class));
 
+	public ClassManager getClassManager() {
+		return null;
+	}
 
+	public boolean isComplete() {
+		return true;
+	}
+
+	public String getName() {
+		return toString().toLowerCase();
+	}
+
+	public String getFullName() {
+		return getName();
+	}
+
+	public String getClassName() {
+		return getName();
+	}
+
+	public String getPackageName() {
+		return null;
+	}
+
+	public boolean isInterface() {
+		return false;
+	}
+
+	public boolean isAbstract() {
+		return false;
+	}
+
+	public boolean isFinal() {
+		return true;
+	}
+
+	public AccessModifier getAccessModifier() {
+		return AccessModifier.PUBLIC;
+	}
+
+	public ClassInfo getExtends() {
+		return null;
+	}
+
+	public Set<ClassInfo> getImplements() {
+		return Collections.emptySet();
+	}
+
+	public Set<ClassInfo> getDirectSupertypes() {
+		return Collections.emptySet();
+	}
+
+	public Set<ClassInfo> getSupertypes() {
+		return Collections.emptySet();
+	}
+
+	public MultiMap<ClassInfo, Reference> getReferences() {
+		return InnigCollections.emptyMultimap();
+	}
+}

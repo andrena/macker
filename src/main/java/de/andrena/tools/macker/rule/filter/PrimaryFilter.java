@@ -17,36 +17,30 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule.filter;
 
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
-import de.andrena.tools.macker.rule.*;
+import de.andrena.tools.macker.rule.EvaluationContext;
+import de.andrena.tools.macker.rule.Pattern;
+import de.andrena.tools.macker.rule.RuleSet;
+import de.andrena.tools.macker.rule.RulesException;
 import de.andrena.tools.macker.structure.ClassInfo;
 
-public class PrimaryFilter
-    implements Filter
-    {
-    public Pattern createPattern(
-            RuleSet ruleSet,
-            List/*<Pattern>*/ params,
-            Map/*<String,String>*/ options)
-        throws RulesException
-        {
-        if(params.size() != 0)
-            throw new FilterSyntaxException(
-                this,
-                "Filter \"" + options.get("filter") + "\" expects no parameters, but has " + params.size());
-        return PRIMARY_PATTERN;
-        }
+public class PrimaryFilter implements Filter {
+	public Pattern createPattern(RuleSet ruleSet, List<Pattern> params, Map<String, String> options)
+			throws RulesException {
+		if (params.size() != 0)
+			throw new FilterSyntaxException(this, "Filter \"" + options.get("filter")
+					+ "\" expects no parameters, but has " + params.size());
+		return PRIMARY_PATTERN;
+	}
 
-    private final Pattern PRIMARY_PATTERN =
-        new Pattern()
-            {
-            public boolean matches(EvaluationContext context, ClassInfo classInfo)
-                throws RulesException
-                { return context.getClassManager().getPrimaryClasses().contains(classInfo); }
-            };
-    }
+	private final Pattern PRIMARY_PATTERN = new Pattern() {
+		public boolean matches(EvaluationContext context, ClassInfo classInfo) throws RulesException {
+			return context.getClassManager().getPrimaryClasses().contains(classInfo);
+		}
+	};
+}

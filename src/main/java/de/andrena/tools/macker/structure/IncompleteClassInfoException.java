@@ -17,22 +17,16 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.structure;
 
-import java.util.Set;
-
 /**
-    Macker needs attributes of a missing class.
-    
-    @see IncompleteClassInfo
-*/
-public class IncompleteClassInfoException
-    extends UnsupportedOperationException
-    {
-    public IncompleteClassInfoException(String message)
-        { super(message); }
-    }
-
-
-
+ * Macker needs attributes of a missing class.
+ * 
+ * @see IncompleteClassInfo
+ */
+public class IncompleteClassInfoException extends UnsupportedOperationException {
+	public IncompleteClassInfoException(String message) {
+		super(message);
+	}
+}

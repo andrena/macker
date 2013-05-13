@@ -17,24 +17,20 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
-package de.andrena.tools.macker.event;
 
-import java.util.*;
+package de.andrena.tools.macker.event;
 
 import de.andrena.tools.macker.rule.ForEach;
 
-public class ForEachIterationFinished
-    extends ForEachEvent
-    {
-    public ForEachIterationFinished(ForEach forEach, String varValue)
-        {
-        super(forEach, forEach.getVariableName() + " = " + varValue);
-        this.varValue = varValue;
-        }
-    
-    public String getVariableValue()
-        { return varValue; }
-    
-    private final String varValue;
-    }
+public class ForEachIterationFinished extends ForEachEvent {
+	public ForEachIterationFinished(ForEach forEach, String varValue) {
+		super(forEach, forEach.getVariableName() + " = " + varValue);
+		this.varValue = varValue;
+	}
+
+	public String getVariableValue() {
+		return varValue;
+	}
+
+	private final String varValue;
+}

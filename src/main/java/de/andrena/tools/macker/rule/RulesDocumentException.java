@@ -17,33 +17,29 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule;
 
 import org.jdom.Element;
-import org.jdom.JDOMException;
 
 /**
-    Indicates a structural exception in rules specification XML.
-*/
+ * Indicates a structural exception in rules specification XML.
+ */
 
-public class RulesDocumentException
-    extends RulesException
-    {
-    public RulesDocumentException(Exception e)
-        {
-        super("Error in rules document XML", e);
-        element = null;
-        }
-    
-    public RulesDocumentException(Element element, String message)
-        {
-        super("Error in rules document XML: " + message + " (Offending element: " + element + ')');
-        this.element = element;
-        }
-    
-    public final Element getElement()
-        { return element; }
-    
-    private final Element element;
-    }
+public class RulesDocumentException extends RulesException {
+	public RulesDocumentException(Exception e) {
+		super("Error in rules document XML", e);
+		element = null;
+	}
+
+	public RulesDocumentException(Element element, String message) {
+		super("Error in rules document XML: " + message + " (Offending element: " + element + ')');
+		this.element = element;
+	}
+
+	public final Element getElement() {
+		return element;
+	}
+
+	private final Element element;
+}

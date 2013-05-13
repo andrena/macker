@@ -17,85 +17,74 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.event;
 
-
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 
 import de.andrena.tools.macker.rule.RuleSet;
 import de.andrena.tools.macker.rule.RuleSeverity;
 
-public class ThrowingListener
-    implements MackerEventListener
-    {
-    public ThrowingListener(
-            RuleSeverity throwOnFirstThreshold,
-            RuleSeverity throwOnFinishThreshold)
-        {
-        this.throwOnFirstThreshold = throwOnFirstThreshold;
-        this.throwOnFinishThreshold = throwOnFinishThreshold;
-        clear();
-        }
-    
-    public void mackerStarted(RuleSet ruleSet)
-        {
-        if(ruleSet.getParent() == null)
-            {
-            if(inUse)
-                throw new IllegalStateException("This ThrowingListener is already in use");
-            inUse = true;
-            }
-        }
-    
-    public void mackerFinished(RuleSet ruleSet)
-        throws MackerIsMadException
-        {
-        if(ruleSet.getParent() == null)
-            inUse = false;
-        }
+public class ThrowingListener implements MackerEventListener {
+	public ThrowingListener(RuleSeverity throwOnFirstThreshold, RuleSeverity throwOnFinishThreshold) {
+		this.throwOnFirstThreshold = throwOnFirstThreshold;
+		this.throwOnFinishThreshold = throwOnFinishThreshold;
+		clear();
+	}
 
-    public void mackerAborted(RuleSet ruleSet)
-        { events = null; }
-    
-    public void handleMackerEvent(RuleSet ruleSet, MackerEvent event)
-        throws MackerIsMadException
-        {
-        if(event instanceof ForEachEvent)
-            return;
-        
-        RuleSeverity severity = event.getRule().getSeverity();
-        if(maxSeverity == null || severity.compareTo(maxSeverity) >= 0)
-            maxSeverity = severity;
+	public void mackerStarted(RuleSet ruleSet) {
+		if (ruleSet.getParent() == null) {
+			if (inUse)
+				throw new IllegalStateException("This ThrowingListener is already in use");
+			inUse = true;
+		}
+	}
 
-        if(throwOnFinishThreshold != null && severity.compareTo(throwOnFinishThreshold) >= 0)
-            events.add(event);
+	public void mackerFinished(RuleSet ruleSet) throws MackerIsMadException {
+		if (ruleSet.getParent() == null)
+			inUse = false;
+	}
 
-        timeToGetMad(throwOnFirstThreshold);
-        }
-    
-    public void timeToGetMad(RuleSeverity threshold)
-        throws MackerIsMadException
-        {
-        if(threshold != null && maxSeverity != null && maxSeverity.compareTo(threshold) >= 0)
-            timeToGetMad();
-        }
+	public void mackerAborted(RuleSet ruleSet) {
+		events = null;
+	}
 
-    public void timeToGetMad()
-        throws MackerIsMadException
-        {
-        if(!events.isEmpty())
-            throw new MackerIsMadException(events);
-        }
-    
-    public void clear()
-        { events = new LinkedList(); }
-    
-    public String toString()
-        { return "ThrowingListener"; }
-    
-    private final RuleSeverity throwOnFirstThreshold, throwOnFinishThreshold;
-    private RuleSeverity maxSeverity;
-    private List events;
-    private boolean inUse;
-    }
+	public void handleMackerEvent(RuleSet ruleSet, MackerEvent event) throws MackerIsMadException {
+		if (event instanceof ForEachEvent)
+			return;
+
+		RuleSeverity severity = event.getRule().getSeverity();
+		if (maxSeverity == null || severity.compareTo(maxSeverity) >= 0)
+			maxSeverity = severity;
+
+		if (throwOnFinishThreshold != null && severity.compareTo(throwOnFinishThreshold) >= 0)
+			events.add(event);
+
+		timeToGetMad(throwOnFirstThreshold);
+	}
+
+	public void timeToGetMad(RuleSeverity threshold) throws MackerIsMadException {
+		if (threshold != null && maxSeverity != null && maxSeverity.compareTo(threshold) >= 0)
+			timeToGetMad();
+	}
+
+	public void timeToGetMad() throws MackerIsMadException {
+		if (!events.isEmpty())
+			throw new MackerIsMadException(events);
+	}
+
+	public void clear() {
+		events = new LinkedList<MackerEvent>();
+	}
+
+	@Override
+	public String toString() {
+		return "ThrowingListener";
+	}
+
+	private final RuleSeverity throwOnFirstThreshold, throwOnFinishThreshold;
+	private RuleSeverity maxSeverity;
+	private List<MackerEvent> events;
+	private boolean inUse;
+}

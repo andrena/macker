@@ -17,37 +17,23 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.util;
 
 import de.andrena.tools.macker.rule.RulesException;
 
-public class IncludeExcludeLogic
-    {
-    public static boolean apply(IncludeExcludeNode node)
-        throws RulesException
-        {
-        return applyNext(
-            node,
-            node.isInclude()
-                ? false  // include starts with all excluded, and
-                : true); // exclude starts with all included
-        }
+public class IncludeExcludeLogic {
+	public static boolean apply(IncludeExcludeNode node) throws RulesException {
+		return applyNext(node, node.isInclude() ? false // include starts with
+														// all excluded, and
+				: true); // exclude starts with all included
+	}
 
-    private static boolean applyNext(
-            IncludeExcludeNode node,
-            boolean prevMatches)
-        throws RulesException
-        {
-        IncludeExcludeNode child = node.getChild(), next = node.getNext();
-        boolean curMatches = node.matches();
-        boolean matchesSoFar =
-            node.isInclude()
-                ? prevMatches || ( curMatches && (child == null || apply(child)))
-                : prevMatches && (!curMatches || (child != null && apply(child)));
-        return
-            (next == null)
-                ? matchesSoFar
-                : applyNext(next, matchesSoFar);
-        }
-    }
+	private static boolean applyNext(IncludeExcludeNode node, boolean prevMatches) throws RulesException {
+		IncludeExcludeNode child = node.getChild(), next = node.getNext();
+		boolean curMatches = node.matches();
+		boolean matchesSoFar = node.isInclude() ? prevMatches || (curMatches && (child == null || apply(child)))
+				: prevMatches && (!curMatches || (child != null && apply(child)));
+		return (next == null) ? matchesSoFar : applyNext(next, matchesSoFar);
+	}
+}

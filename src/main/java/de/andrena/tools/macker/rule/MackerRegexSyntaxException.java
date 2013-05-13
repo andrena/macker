@@ -17,42 +17,32 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule;
 
-import org.jdom.Element;
+public class MackerRegexSyntaxException extends RulesException {
+	public MackerRegexSyntaxException(String regexp) {
+		super(getMessage(regexp) + "");
+		this.regexp = regexp;
+	}
 
-import org.apache.regexp.RESyntaxException;
+	public MackerRegexSyntaxException(String regexp, Exception cause) {
+		super(getMessage(regexp) + ": ", cause);
+		this.regexp = regexp;
+	}
 
-public class MackerRegexSyntaxException
-    extends RulesException
-    {
-    public MackerRegexSyntaxException(String regexp)
-        {
-        super(getMessage(regexp) + "");
-        this.regexp = regexp;
-        }
-    
-    public MackerRegexSyntaxException(String regexp, RESyntaxException cause)
-        {
-        super(getMessage(regexp) + ": ", cause);
-        this.regexp = regexp;
-        }
-    
-    public MackerRegexSyntaxException(String regexp, String message)
-        {
-        super(getMessage(regexp) + ": " + message);
-        this.regexp = regexp;
-        }
-    
-    public final String getRegexp()
-        { return regexp; }
-        
-    private static String getMessage(String regexp)
-        { return "\"" + regexp + "\" is not a valid Macker regexp pattern"; }
-    
-    private final String regexp;
-    }
-    
-    
-    
+	public MackerRegexSyntaxException(String regexp, String message) {
+		super(getMessage(regexp) + ": " + message);
+		this.regexp = regexp;
+	}
+
+	public final String getRegexp() {
+		return regexp;
+	}
+
+	private static String getMessage(String regexp) {
+		return "\"" + regexp + "\" is not a valid Macker regexp pattern";
+	}
+
+	private final String regexp;
+}

@@ -17,14 +17,13 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule.filter;
 
 import de.andrena.tools.macker.rule.RulesException;
 
-public class NoSuchFilterException
-    extends RulesException
-    {
-    public NoSuchFilterException(String filterName)
-        { super("Filter named \"" + filterName + "\" not found"); }
-    }
+public class NoSuchFilterException extends RulesException {
+	public NoSuchFilterException(String filterName) {
+		super("Filter named \"" + filterName + "\" not found");
+	}
+}

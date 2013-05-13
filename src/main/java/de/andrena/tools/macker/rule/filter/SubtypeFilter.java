@@ -17,41 +17,32 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule.filter;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 
-import de.andrena.tools.macker.rule.*;
+import de.andrena.tools.macker.rule.EvaluationContext;
+import de.andrena.tools.macker.rule.Pattern;
+import de.andrena.tools.macker.rule.RuleSet;
+import de.andrena.tools.macker.rule.RulesException;
 import de.andrena.tools.macker.structure.ClassInfo;
 
-public class SubtypeFilter
-    implements Filter
-    {
-    public Pattern createPattern(
-            RuleSet ruleSet,
-            List/*<Pattern>*/ params,
-            Map/*<String,String>*/ options)
-        throws RulesException
-        {
-        if(params.size() != 1)
-            throw new FilterSyntaxException(
-                this,
-                "Filter \"" + options.get("filter") + "\" expects one parameter, but has " + params.size());
-        final Pattern supertypePat = (Pattern) params.get(0);
-        return new Pattern()
-            {
-            public boolean matches(EvaluationContext context, ClassInfo classInfo)
-                throws RulesException
-                {
-                for(Iterator superI = classInfo.getSupertypes().iterator(); superI.hasNext(); )
-                    {
-                    ClassInfo supertype = (ClassInfo) superI.next();
-                    if(supertypePat.matches(context, supertype))
-                        return true;
-                    }
-                return false;
-                }
-            };
-        }
-    }
+public class SubtypeFilter implements Filter {
+	public Pattern createPattern(RuleSet ruleSet, List<Pattern> params, Map<String, String> options)
+			throws RulesException {
+		if (params.size() != 1)
+			throw new FilterSyntaxException(this, "Filter \"" + options.get("filter")
+					+ "\" expects one parameter, but has " + params.size());
+		final Pattern supertypePat = params.get(0);
+		return new Pattern() {
+			public boolean matches(EvaluationContext context, ClassInfo classInfo) throws RulesException {
+				for (ClassInfo supertype : classInfo.getSupertypes())
+					if (supertypePat.matches(context, supertype))
+						return true;
+				return false;
+			}
+		};
+	}
+}

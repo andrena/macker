@@ -17,29 +17,33 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule;
 
 import de.andrena.tools.macker.structure.ClassInfo;
 
-public interface Pattern
-    {
-    public static final Pattern ALL =
-        new Pattern()
-            {
-            public boolean matches(EvaluationContext context, ClassInfo classInfo)
-                { return true; }
-            public String toString() { return "<all>"; }
-            };
-    
-    public static final Pattern NONE =
-        new Pattern()
-            {
-            public boolean matches(EvaluationContext context, ClassInfo classInfo)
-                { return false; }
-            public String toString() { return "<none>"; }
-            };
-    
-    public boolean matches(EvaluationContext context, ClassInfo classInfo)
-        throws RulesException;
-    }
+public interface Pattern {
+	public static final Pattern ALL = new Pattern() {
+		public boolean matches(EvaluationContext context, ClassInfo classInfo) {
+			return true;
+		}
+
+		@Override
+		public String toString() {
+			return "<all>";
+		}
+	};
+
+	public static final Pattern NONE = new Pattern() {
+		public boolean matches(EvaluationContext context, ClassInfo classInfo) {
+			return false;
+		}
+
+		@Override
+		public String toString() {
+			return "<none>";
+		}
+	};
+
+	public boolean matches(EvaluationContext context, ClassInfo classInfo) throws RulesException;
+}

@@ -17,35 +17,42 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.structure;
 
-import java.util.*;
-import net.innig.collect.*;
+import java.util.Set;
+
+import de.andrena.tools.macker.util.collect.MultiMap;
 
 /**
-    Information about a class's structure.
-*/
-public interface ClassInfo
-    extends Comparable
-    {
-    public ClassManager getClassManager();
-    public boolean isComplete();
+ * Information about a class's structure.
+ */
+public interface ClassInfo {
+	public ClassManager getClassManager();
 
-    public String getFullName();
-    public String getClassName();
-    public String getPackageName();
+	public boolean isComplete();
 
-    public boolean isInterface();
-    public boolean isAbstract();
-    public boolean isFinal();
-    public AccessModifier getAccessModifier();
-    
-    public ClassInfo getExtends();
-    public Set/*<ClassInfo>*/ getImplements();
-    public Set/*<ClassInfo>*/ getDirectSupertypes();
-    public Set/*<ClassInfo>*/ getSupertypes();
+	public String getFullName();
 
-    public MultiMap/*<ClassInfo,Reference>*/ getReferences();
-    }
+	public String getClassName();
 
+	public String getPackageName();
+
+	public boolean isInterface();
+
+	public boolean isAbstract();
+
+	public boolean isFinal();
+
+	public AccessModifier getAccessModifier();
+
+	public ClassInfo getExtends();
+
+	public Set<ClassInfo> getImplements();
+
+	public Set<ClassInfo> getDirectSupertypes();
+
+	public Set<ClassInfo> getSupertypes();
+
+	public MultiMap<ClassInfo, Reference> getReferences();
+}

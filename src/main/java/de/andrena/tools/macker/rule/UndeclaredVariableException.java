@@ -17,12 +17,11 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule;
 
-public class UndeclaredVariableException
-    extends RulesException
-    {
-    public UndeclaredVariableException(String variableName)
-        { super("Variable named \"" + variableName + "\" not declared"); }
-    }
+public class UndeclaredVariableException extends RulesException {
+	public UndeclaredVariableException(String variableName) {
+		super("Variable named \"" + variableName + "\" not declared");
+	}
+}

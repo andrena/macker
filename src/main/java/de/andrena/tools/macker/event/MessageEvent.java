@@ -17,16 +17,15 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.event;
 
-import java.util.*;
+import java.util.Collections;
 
 import de.andrena.tools.macker.rule.Message;
 
-public class MessageEvent
-    extends MackerEvent
-    {
-    public MessageEvent(Message messageRule, String message)
-        { super(messageRule, null, Collections.singletonList(message)); }
-    }
+public class MessageEvent extends MackerEvent {
+	public MessageEvent(Message messageRule, String message) {
+		super(messageRule, null, Collections.singletonList(message));
+	}
+}

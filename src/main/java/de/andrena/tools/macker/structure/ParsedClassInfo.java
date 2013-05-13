@@ -37,10 +37,10 @@ import javassist.CtBehavior;
 import javassist.CtClass;
 import javassist.CtField;
 import javassist.Modifier;
-import net.innig.collect.CompositeMultiMap;
-import net.innig.collect.InnigCollections;
-import net.innig.collect.MultiMap;
 import de.andrena.tools.macker.util.ClassNameTranslator;
+import de.andrena.tools.macker.util.collect.CompositeMultiMap;
+import de.andrena.tools.macker.util.collect.InnigCollections;
+import de.andrena.tools.macker.util.collect.MultiMap;
 
 /**
  * Class info retrieved from a class file using Javassist.
@@ -56,7 +56,7 @@ public class ParsedClassInfo extends AbstractClassInfo {
 	private AccessModifier accessModifier;
 	private ClassInfo extendsClass;
 	private Set<ClassInfo> implementsClasses;
-	private MultiMap references;
+	private MultiMap<ClassInfo, Reference> references;
 
 	ParsedClassInfo(final ClassManager classManager, final File classFile) throws IOException, ClassParseException {
 		super(classManager);
@@ -69,48 +69,39 @@ public class ParsedClassInfo extends AbstractClassInfo {
 		parse(ClassPool.getDefault().makeClass(classFileStream));
 	}
 
-	@Override
 	public String getFullName() {
 		return this.fullClassName;
 	}
 
-	@Override
 	public boolean isComplete() {
 		return true;
 	}
 
-	@Override
 	public boolean isInterface() {
 		return this.isInterface;
 	}
 
-	@Override
 	public boolean isAbstract() {
 		return this.isAbstract;
 	}
 
-	@Override
 	public boolean isFinal() {
 		return this.isFinal;
 	}
 
-	@Override
 	public AccessModifier getAccessModifier() {
 		return this.accessModifier;
 	}
 
-	@Override
 	public ClassInfo getExtends() {
 		return this.extendsClass;
 	}
 
-	@Override
 	public Set<ClassInfo> getImplements() {
 		return this.implementsClasses;
 	}
 
-	@Override
-	public MultiMap getReferences() {
+	public MultiMap<ClassInfo, Reference> getReferences() {
 		return this.references;
 	}
 
@@ -150,7 +141,7 @@ public class ParsedClassInfo extends AbstractClassInfo {
 	}
 
 	private void parseImplements(CtClass classFile) throws ClassParseException {
-		implementsClasses = new TreeSet<ClassInfo>(new ClassInfoNameComparator());
+		implementsClasses = new TreeSet<ClassInfo>(ClassInfoNameComparator.INSTANCE);
 		for (String interfaze : classFile.getClassFile().getInterfaces()) {
 			implementsClasses.add(getSafeClassInfo(interfaze));
 		}
@@ -166,7 +157,7 @@ public class ParsedClassInfo extends AbstractClassInfo {
 		parseReferences(classFile);
 	}
 
-	private void addReference(final Reference ref) {
+	private void addReference(Reference ref) {
 		getReferences().put(ref.getTo(), ref);
 	}
 
@@ -205,7 +196,8 @@ public class ParsedClassInfo extends AbstractClassInfo {
 	}
 
 	private void parseReferences(CtClass classFile) throws ClassParseException {
-		this.references = new CompositeMultiMap(TreeMap.class, HashSet.class);
+		this.references = new CompositeMultiMap<ClassInfo, Reference>(new TreeMap<ClassInfo, Set<Reference>>(
+				ClassInfoNameComparator.INSTANCE), HashSet.class);
 		parseConstantPoolReferences(classFile);
 		parseMethodReferences(classFile);
 		parseFieldReferences(classFile);

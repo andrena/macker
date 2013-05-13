@@ -17,17 +17,15 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule;
 
-import net.innig.util.EnumeratedType;
+import de.andrena.tools.macker.util.EnumeratedType;
 
-public final class AccessRuleType
-    extends EnumeratedType
-    {
-    public static final AccessRuleType
-        ALLOW = new AccessRuleType("allow"),
-        DENY  = new AccessRuleType("deny");
-    
-    private AccessRuleType(String name) { super(name); }
-    }
+public final class AccessRuleType extends EnumeratedType {
+	public static final AccessRuleType ALLOW = new AccessRuleType("allow"), DENY = new AccessRuleType("deny");
+
+	private AccessRuleType(String name) {
+		super(name);
+	}
+}

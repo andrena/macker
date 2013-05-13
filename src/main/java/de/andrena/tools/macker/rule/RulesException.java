@@ -17,21 +17,19 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
+
 package de.andrena.tools.macker.rule;
 
-import org.apache.commons.lang.exception.NestableException;
-
 /**
-    Indicates an illegal or ill-formed rule.
-*/
+ * Indicates an illegal or ill-formed rule.
+ */
 
-public abstract class RulesException
-    extends NestableException
-    {
-    public RulesException(String message)
-        { super(message); }
-    
-    public RulesException(String message, Throwable cause)
-        { super(message, cause); }
-    }
+public abstract class RulesException extends Exception {
+	public RulesException(String message) {
+		super(message);
+	}
+
+	public RulesException(String message, Throwable cause) {
+		super(message, cause);
+	}
+}

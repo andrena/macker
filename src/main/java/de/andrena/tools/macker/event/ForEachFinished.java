@@ -17,16 +17,13 @@
  * Place, Suite 330 / Boston, MA 02111-1307 / USA.
  *______________________________________________________________________________
  */
- 
-package de.andrena.tools.macker.event;
 
-import java.util.*;
+package de.andrena.tools.macker.event;
 
 import de.andrena.tools.macker.rule.ForEach;
 
-public class ForEachFinished
-    extends ForEachEvent
-    {
-    public ForEachFinished(ForEach forEach)
-        { super(forEach, "forEach finished"); }
-    }
+public class ForEachFinished extends ForEachEvent {
+	public ForEachFinished(ForEach forEach) {
+		super(forEach, "forEach finished");
+	}
+}
