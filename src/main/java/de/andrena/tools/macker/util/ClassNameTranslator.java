@@ -74,7 +74,8 @@ public class ClassNameTranslator {
 		arrayExtractorRE = Pattern.compile("^(\\[+([BSIJCFDZV])|\\[+L([^;]*);)$");
 		sigExtractorRE = Pattern.compile("^\\(?\\)?(\\[*([BSIJCFDZV])|\\[*L([^;]*);)");
 		String javaIdent = "[\\p{Alpha}$_][\\p{Alnum}$_]*";
-		legalJavaIdentRE = Pattern.compile("^(" + javaIdent + ")(\\.(" + javaIdent + "))*$");
+		String packageInfo = Pattern.quote("package-info");
+		legalJavaIdentRE = Pattern.compile("^((" + javaIdent + ")\\.)*((" + javaIdent + ")|(" + packageInfo + "))$");
 
 		primitiveTypeMap = new HashMap<String, String>();
 		primitiveTypeMap.put("B", "byte");
