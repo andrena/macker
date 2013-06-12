@@ -116,14 +116,14 @@ public class RuleSetBuilder {
 	public Collection<RuleSet> build(Element elem) throws RulesException {
 		Collection<RuleSet> ruleSets = new ArrayList<RuleSet>();
 
-		for (Element rsElem : getChildren(elem))
+		for (Element rsElem : getChildren(elem, "ruleset"))
 			ruleSets.add(buildRuleSet(rsElem, RuleSet.getMackerDefaults()));
 		return ruleSets;
 	}
 
 	@SuppressWarnings("unchecked")
-	private Collection<Element> getChildren(Element elem) {
-		return elem.getChildren("ruleset");
+	private Collection<Element> getChildren(Element elem, String tagName) {
+		return elem.getChildren(tagName);
 	}
 
 	private void validateAgainstDTD(Document doc) throws RulesDocumentException {
@@ -133,7 +133,8 @@ public class RuleSetBuilder {
 		try {
 			xmlOut.output(doc, out);
 		} catch (IOException ioe) {
-			throw new RuntimeException("Unexpected output exception.", ioe);
+			ioe.printStackTrace();
+			throw new RuntimeException("Unexpected output exception: " + ioe);
 		}
 		Reader in = new StringReader(out.toString());
 		try {
@@ -340,6 +341,11 @@ public class RuleSetBuilder {
 			buildSeverity(topRule, ruleElem);
 		}
 		return topRule;
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<Element> getChildren(Element ruleElem) {
+		return ruleElem.getChildren();
 	}
 
 	public void buildSeverity(Rule rule, Element elem) throws RulesDocumentException {
