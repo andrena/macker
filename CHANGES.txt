@@ -1,3 +1,9 @@
+Version 1.0.2:
+* Fixed XML validation requiring internet connection.
+
+Version 1.0.1:
+* Fixed error when a package-info.java is present.
+
 Version 1.0.0:
 * Mavenized
 * Moved from BCEL to Javassist to be able to work with Java 7 + 8
