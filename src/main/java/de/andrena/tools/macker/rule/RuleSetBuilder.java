@@ -27,6 +27,7 @@ import java.io.PrintStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -43,13 +44,23 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.output.XMLOutputter;
 
+import de.andrena.tools.macker.Macker;
 import de.andrena.tools.macker.rule.filter.Filter;
 import de.andrena.tools.macker.rule.filter.FilterFinder;
 import de.andrena.tools.macker.util.io.NullOutputStream;
 
 public class RuleSetBuilder {
+
+	public static final URL MACKER_DTD = Thread.currentThread().getContextClassLoader()
+			.getResource(Macker.PACKAGE_SLASHES + "/macker.dtd");
+
+	private SAXBuilder saxBuilder, saxBuilderVerify;
+	private XMLOutputter xmlOut;
+	private String dtdUrlS;
+
 	public RuleSetBuilder() {
 		saxBuilder = new SAXBuilder(false);
+		saxBuilder.setEntityResolver(new MackerEntityResolver());
 		saxBuilderVerify = new SAXBuilder(true);
 		xmlOut = new XMLOutputter();
 
@@ -57,7 +68,7 @@ public class RuleSetBuilder {
 		PrintStream realErr = System.err;
 		try {
 			System.setErr(new PrintStream(new NullOutputStream()));
-			dtdUrlS = getClass().getClassLoader().getResource("net/innig/macker/macker.dtd").toExternalForm();
+			dtdUrlS = MACKER_DTD.toExternalForm();
 		} finally {
 			System.setErr(realErr);
 		}
@@ -105,9 +116,14 @@ public class RuleSetBuilder {
 	public Collection<RuleSet> build(Element elem) throws RulesException {
 		Collection<RuleSet> ruleSets = new ArrayList<RuleSet>();
 
-		for (Element rsElem : (Collection<Element>) elem.getChildren("ruleset"))
+		for (Element rsElem : getChildren(elem))
 			ruleSets.add(buildRuleSet(rsElem, RuleSet.getMackerDefaults()));
 		return ruleSets;
+	}
+
+	@SuppressWarnings("unchecked")
+	private Collection<Element> getChildren(Element elem) {
+		return elem.getChildren("ruleset");
 	}
 
 	private void validateAgainstDTD(Document doc) throws RulesDocumentException {
@@ -117,8 +133,7 @@ public class RuleSetBuilder {
 		try {
 			xmlOut.output(doc, out);
 		} catch (IOException ioe) {
-			ioe.printStackTrace();
-			throw new RuntimeException("Unexpected output exception: " + ioe);
+			throw new RuntimeException("Unexpected output exception.", ioe);
 		}
 		Reader in = new StringReader(out.toString());
 		try {
@@ -139,7 +154,7 @@ public class RuleSetBuilder {
 
 		buildSeverity(ruleSet, ruleSetElem);
 
-		for (Element subElem : (Collection<Element>) ruleSetElem.getChildren()) {
+		for (Element subElem : getChildren(ruleSetElem)) {
 			String subElemName = subElem.getName();
 			if (subElemName.equals("pattern")) {
 				String patternName = subElem.getAttributeValue("name");
@@ -208,7 +223,7 @@ public class RuleSetBuilder {
 		// build up children
 
 		Pattern childrenPat = null;
-		List<Element> children = new ArrayList<Element>(patternElem.getChildren()); // !
+		List<Element> children = new ArrayList<Element>(getChildren(patternElem)); // !
 																					// workaround
 																					// for
 																					// bug
@@ -228,7 +243,7 @@ public class RuleSetBuilder {
 
 		if (filterName != null) {
 			Map<String, String> options = new HashMap<String, String>();
-			for (Attribute attr : (Collection<Attribute>) patternElem.getAttributes())
+			for (Attribute attr : getAttributes(patternElem))
 				options.put(attr.getName(), attr.getValue());
 			options.remove("name");
 			options.remove("pattern");
@@ -246,6 +261,11 @@ public class RuleSetBuilder {
 		// pull together composite
 
 		return CompositePattern.create(patType, head, childrenPat, nextPat);
+	}
+
+	@SuppressWarnings("unchecked")
+	private Collection<Attribute> getAttributes(Element patternElem) {
+		return patternElem.getAttributes();
 	}
 
 	public Variable buildVariable(Element forEachElem, RuleSet parent) throws RulesException {
@@ -284,7 +304,7 @@ public class RuleSetBuilder {
 
 	public AccessRule buildAccessRule(Element ruleElem, RuleSet ruleSet) throws RulesException {
 		AccessRule prevRule = null, topRule = null;
-		for (Element subElem : (List<Element>) ruleElem.getChildren()) {
+		for (Element subElem : getChildren(ruleElem)) {
 			AccessRule accRule = new AccessRule(ruleSet);
 
 			if (subElem.getName().equals("allow"))
@@ -346,7 +366,4 @@ public class RuleSetBuilder {
 		return value;
 	}
 
-	private SAXBuilder saxBuilder, saxBuilderVerify;
-	private XMLOutputter xmlOut;
-	private String dtdUrlS;
 }

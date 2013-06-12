@@ -57,6 +57,9 @@ import de.andrena.tools.macker.util.collect.Selector;
  * The main class for the command line interface.
  */
 public class Macker {
+	public static final String PACKAGE_DOTS = "de.andrena.tools.macker";
+	public static final String PACKAGE_SLASHES = "de/andrena/tools/macker";
+
 	// ------------------------------------------------------------------------
 	// Static
 	// ------------------------------------------------------------------------
@@ -74,7 +77,8 @@ public class Macker {
 					return;
 				} else if (args[arg].equals("-V") || args[arg].equals("--version")) {
 					Properties p = new Properties();
-					p.load(Macker.class.getClassLoader().getResourceAsStream("net/innig/macker/version.properties"));
+					p.load(Macker.class.getClassLoader().getResourceAsStream(
+							Macker.PACKAGE_SLASHES + "/version.properties"));
 					System.out.println("Macker " + p.get("macker.version.long"));
 					System.out.println("http://innig.net/macker/");
 					System.out.println("Licensed under GPL v2.1; see LICENSE.html");
@@ -192,7 +196,8 @@ public class Macker {
 		indexReader.close();
 	}
 
-	public void addReachableClasses(Class initialClass, final String primaryPrefix) throws IncompleteClassInfoException {
+	public void addReachableClasses(Class<?> initialClass, final String primaryPrefix)
+			throws IncompleteClassInfoException {
 		addReachableClasses(initialClass.getName(), primaryPrefix);
 	}
 

@@ -23,6 +23,7 @@ package de.andrena.tools.macker.rule.filter;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.andrena.tools.macker.Macker;
 import de.andrena.tools.macker.util.Conf;
 import de.andrena.tools.macker.util.CorruptConfigurationException;
 
@@ -57,6 +58,6 @@ public abstract class FilterFinder {
 	private FilterFinder() {
 	}
 
-	private static final String FILTER_CONF = "net.innig.macker.filter";
+	private static final String FILTER_CONF = Macker.PACKAGE_DOTS + ".filter";
 	private static Map<String, Filter> filterCache = new HashMap<String, Filter>();
 }

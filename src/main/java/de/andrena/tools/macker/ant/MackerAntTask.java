@@ -69,7 +69,7 @@ public class MackerAntTask extends Task {
 					throw new BuildException("nested <classpath> element is required when fork=true");
 
 				getJvm().setTaskName("macker");
-				getJvm().setClassname("net.innig.macker.Macker");
+				getJvm().setClassname(Macker.PACKAGE_DOTS + ".Macker");
 				getJvm().setFork(fork);
 				getJvm().setFailonerror(false);
 				getJvm().clearArgs();

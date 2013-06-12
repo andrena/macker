@@ -35,6 +35,7 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
+import de.andrena.tools.macker.Macker;
 import de.andrena.tools.macker.util.StreamSplitter;
 
 /**
@@ -106,7 +107,7 @@ public class MackerReportAntTask extends Task {
 	}
 
 	private URL resolveInternalResource(String name, String kind, String extension) throws BuildException {
-		String resourceName = "net/innig/macker/report/" + kind + '/' + name + '.' + extension;
+		String resourceName = Macker.PACKAGE_SLASHES + "/report/" + kind + '/' + name + '.' + extension;
 		URL resource = getClass().getClassLoader().getResource(resourceName);
 		if (resource == null)
 			throw new BuildException("No internal Macker report " + kind + " named \"" + name + "\" (can't find \""
