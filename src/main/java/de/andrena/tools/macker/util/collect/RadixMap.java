@@ -352,17 +352,14 @@ public class RadixMap extends AbstractMap {
 	}
 
 	private class Entry implements Map.Entry {
-		@Override
 		public Object getKey() {
 			return key;
 		}
 
-		@Override
 		public Object getValue() {
 			return value;
 		}
 
-		@Override
 		public Object setValue(final Object value) {
 			final Object oldValue = value;
 			this.value = value;
@@ -415,7 +412,6 @@ public class RadixMap extends AbstractMap {
 			}
 		}
 
-		@Override
 		public boolean hasNext() {
 			checkModification();
 			if (tree == null) {
@@ -439,7 +435,6 @@ public class RadixMap extends AbstractMap {
 			return false;
 		}
 
-		@Override
 		public Object next() {
 			if (!hasNext()) {
 				throw new NoSuchElementException();
@@ -458,7 +453,6 @@ public class RadixMap extends AbstractMap {
 			return curIter.next();
 		}
 
-		@Override
 		public void remove() {
 			if (curIter != null) {
 				curIter.remove();
