@@ -137,7 +137,10 @@ public class ParsedClassInfo extends AbstractClassInfo {
 	}
 
 	private void parseExtends(CtClass classFile) throws ClassParseException {
-		this.extendsClass = getSafeClassInfo(classFile.getClassFile().getSuperclass());
+		String superClassStr = classFile.getClassFile().getSuperclass();
+		// avoid NullPointerException if classFile is java.lang.Object
+		//System.out.println("class=" + classFile + ", classFile=" + classFile.getClassFile() + ", superClass=" + superClassStr);
+		this.extendsClass = superClassStr!=null ? getSafeClassInfo(superClassStr) : null;
 	}
 
 	private void parseImplements(CtClass classFile) throws ClassParseException {
