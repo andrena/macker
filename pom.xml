@@ -16,7 +16,7 @@
 	<name>Macker</name>
 	<description>Macker is a build-time architectural rule checking utility for Java developers. It's meant to model the architectural ideals programmers always dream up for their projects, and then break - it helps keep code clean and consistent.</description>
 
-	<url>https://github.com/andrena/macker</url>
+	<url>https://github.com/his-eg/macker</url>
 	<scm>
 		<connection>scm:git:git@github.com:his-eg/macker.git</connection>
 		<developerConnection>scm:git:git@github.com:his-eg/macker.git</developerConnection>
