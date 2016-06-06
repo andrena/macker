@@ -10,7 +10,7 @@
 
 	<groupId>de.andrena.tools.macker</groupId>
 	<artifactId>macker</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>1.0.3</version>
 	<packaging>jar</packaging>
 
 	<name>Macker</name>
@@ -18,9 +18,9 @@
 
 	<url>https://github.com/andrena/macker</url>
 	<scm>
-		<connection>scm:git:git@github.com:andrena/macker.git</connection>
-		<developerConnection>scm:git:git@github.com:andrena/macker.git</developerConnection>
-		<url>git@github.com:andrena/macker.git</url>
+		<connection>scm:git:git@github.com:his-eg/macker.git</connection>
+		<developerConnection>scm:git:git@github.com:his-eg/macker.git</developerConnection>
+		<url>git@github.com:his-eg/macker.git</url>
 	</scm>
 
 	<licenses>
@@ -105,9 +105,9 @@
 			<version>3.17.1-GA</version>
 		</dependency>
 		<dependency>
-			<groupId>ant</groupId>
+			<groupId>org.apache.ant</groupId>
 			<artifactId>ant</artifactId>
-			<version>1.5</version>
+			<version>1.9.6</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
@@ -116,8 +116,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.jdom</groupId>
-			<artifactId>jdom</artifactId>
-			<version>2.0.2</version>
+			<artifactId>jdom2</artifactId>
+			<version>2.0.6</version>
 		</dependency>
 
 		<dependency>
