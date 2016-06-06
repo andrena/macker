@@ -1,3 +1,8 @@
+Version 1.0.3:
+* Fixed NullPointerException when a rule applies to java.lang.Object, so that there is no superclass
+* added files from original macker 0.4.2 required for html report
+* updated required libraries
+
 Version 1.0.2:
 * Fixed XML validation requiring internet connection.
 
