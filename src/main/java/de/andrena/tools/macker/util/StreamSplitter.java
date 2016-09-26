@@ -273,15 +273,20 @@ public class StreamSplitter extends Thread {
 					sleep(latency);
 			}
 		} catch (Exception e) {
-			if (verbose)
-				e.printStackTrace(System.err);
+			if (verbose) e.printStackTrace(System.err);
 		}
 
 		try {
 			in.close();
 		} catch (Exception e) {
-			if (verbose)
-				e.printStackTrace(System.err);
+			if (verbose) e.printStackTrace(System.err);
+		}
+		for (int n = 0; n < out.length; n++) {
+			try {
+				out[n].close();
+			} catch (IOException e) {
+				if (verbose) e.printStackTrace(System.err);
+			}
 		}
 
 		done = true;
