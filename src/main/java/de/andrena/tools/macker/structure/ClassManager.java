@@ -65,12 +65,6 @@ public class ClassManager {
 		return classInfo;
 	}
 
-	public ClassInfo readClass(InputStream classFile) throws ClassParseException, IOException {
-		ClassInfo classInfo = new ParsedClassInfo(this, classFile);
-		addClass(classInfo);
-		return classInfo;
-	}
-
 	private void addClass(ClassInfo classInfo) {
 		ClassInfo existing = findClassInfo(classInfo.getFullName());
 		if (existing != null && !(existing instanceof HollowClassInfo))
@@ -141,7 +135,8 @@ public class ClassManager {
 					try {
 						classStream.close();
 					} catch (IOException ioe) {
-					} // nothing we can do
+						 // nothing we can do
+					}
 				}
 
 			if (classInfo == null)
