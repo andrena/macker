@@ -58,15 +58,49 @@ public class ParsedClassInfo extends AbstractClassInfo {
 	private Set<ClassInfo> implementsClasses;
 	private MultiMap<ClassInfo, Reference> references;
 
+	/**
+	 * Recommended constructor.
+	 * @param classManager
+	 * @param classFile
+	 * @throws IOException
+	 * @throws ClassParseException
+	 */
 	ParsedClassInfo(final ClassManager classManager, final File classFile) throws IOException, ClassParseException {
 		super(classManager);
-		parse(ClassPool.getDefault().makeClass(new FileInputStream(classFile)));
+		FileInputStream classFileInputStream = null;
+		try {
+			classFileInputStream = new FileInputStream(classFile);
+			parse(ClassPool.getDefault().makeClass(classFileInputStream));
+		} catch (IOException | ClassParseException | RuntimeException e) {
+			// close input stream and re-throw exception
+			closeClassFileInputStream(classFileInputStream);
+			throw e;
+		}
+		// no exception occurred, simply close input stream
+		closeClassFileInputStream(classFileInputStream);
 	}
 
-	ParsedClassInfo(final ClassManager classManager, final InputStream classFileStream) throws IOException,
+	private static final void closeClassFileInputStream(FileInputStream classFileInputStream) {
+		if (classFileInputStream != null) {
+			try {
+				classFileInputStream.close();
+			} catch (IOException ioe) {
+				// nothing we can do
+			}
+		}
+	}
+
+	/**
+	 * Less recommended constructor: A caller must guarantee that the passed input stream is closed afterwards.
+	 * @param classManager
+	 * @param classFileInputStream
+	 * @throws IOException
+	 * @throws ClassParseException
+	 */
+	ParsedClassInfo(final ClassManager classManager, final InputStream classFileInputStream) throws IOException,
 			ClassParseException {
 		super(classManager);
-		parse(ClassPool.getDefault().makeClass(classFileStream));
+		parse(ClassPool.getDefault().makeClass(classFileInputStream));
 	}
 
 	public String getFullName() {
