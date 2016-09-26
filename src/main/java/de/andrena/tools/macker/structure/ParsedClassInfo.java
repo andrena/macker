@@ -41,6 +41,7 @@ import de.andrena.tools.macker.util.ClassNameTranslator;
 import de.andrena.tools.macker.util.collect.CompositeMultiMap;
 import de.andrena.tools.macker.util.collect.InnigCollections;
 import de.andrena.tools.macker.util.collect.MultiMap;
+import de.andrena.tools.macker.util.io.StreamUtil;
 
 /**
  * Class info retrieved from a class file using Javassist.
@@ -73,21 +74,11 @@ public class ParsedClassInfo extends AbstractClassInfo {
 			parse(ClassPool.getDefault().makeClass(classFileInputStream));
 		} catch (IOException | ClassParseException | RuntimeException e) {
 			// close input stream and re-throw exception
-			closeClassFileInputStream(classFileInputStream);
+			StreamUtil.closeStream(classFileInputStream);
 			throw e;
 		}
 		// no exception occurred, simply close input stream
-		closeClassFileInputStream(classFileInputStream);
-	}
-
-	private static final void closeClassFileInputStream(FileInputStream classFileInputStream) {
-		if (classFileInputStream != null) {
-			try {
-				classFileInputStream.close();
-			} catch (IOException ioe) {
-				// nothing we can do
-			}
-		}
+		StreamUtil.closeStream(classFileInputStream);
 	}
 
 	/**
