@@ -1,4 +1,4 @@
-[![Build Status](https://buildhive.cloudbees.com/job/andrena/job/macker/badge/icon)](https://buildhive.cloudbees.com/job/andrena/job/macker/)
+[![Build Status](https://travis-ci.org/his-eg/macker.svg)](https://travis-ci.org/his-eg/macker)
 
 [Documentation and examples](http://innig.net/macker/guide/)
 
