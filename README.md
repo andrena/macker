@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/his-eg/macker.svg)](https://travis-ci.org/his-eg/macker)
+[![Build Status](https://travis-ci.org/andrena/macker.svg)](https://travis-ci.org/andrena/macker)
 
 [Documentation and examples](http://innig.net/macker/guide/)
 
