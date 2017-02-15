@@ -1,3 +1,6 @@
+Version 1.0.4:
+* Closing InputStreams in several cases fixed "too many open files" on Linux.
+
 Version 1.0.3:
 * Fixed NullPointerException when a rule applies to java.lang.Object, so that there is no superclass
 * added files from original macker 0.4.2 required for html report
