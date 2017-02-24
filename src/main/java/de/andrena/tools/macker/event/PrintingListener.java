@@ -119,8 +119,12 @@ public class PrintingListener implements MackerEventListener {
 				out.print((eventsForSev.size() == 1) ? severity.getName() : severity.getNamePlural());
 			}
 		}
-		if (!firstSeverity)
+		if (firstSeverity) {
+			// no problems found -> log that to make clear the run is finished
+			out.println("(no issues)");
+		} else {
 			out.println(')');
+		}
 	}
 
 	@Override
