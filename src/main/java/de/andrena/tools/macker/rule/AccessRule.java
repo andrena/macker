@@ -32,6 +32,9 @@ import de.andrena.tools.macker.util.IncludeExcludeLogic;
 import de.andrena.tools.macker.util.IncludeExcludeNode;
 import de.andrena.tools.macker.util.collect.MultiMap;
 
+/**
+ * Processes <access-rule> tags in rule XML files.
+ */
 public class AccessRule extends Rule {
 	// --------------------------------------------------------------------------
 	// Constructors

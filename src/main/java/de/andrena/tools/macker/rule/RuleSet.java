@@ -31,6 +31,9 @@ import de.andrena.tools.macker.event.MackerIsMadException;
 import de.andrena.tools.macker.structure.ClassInfo;
 import de.andrena.tools.macker.structure.ClassManager;
 
+/**
+ * Processes <ruleset> tags in rule XML files.
+ */
 public class RuleSet extends Rule {
 	public static RuleSet getMackerDefaults() {
 		if (defaults == null)

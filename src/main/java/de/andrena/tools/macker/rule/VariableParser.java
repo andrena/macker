@@ -24,6 +24,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class VariableParser {
+
+	/** variables are declared in other strings like "${from}" */
+	static private Pattern var = Pattern.compile("\\$\\{([A-Za-z0-9_\\.\\-]+)\\}");
+
+	private VariableParser() {
+		// static class, hide constructor
+	}
+	
+	/**
+	 * Replace variables in input string.
+	 * Example:
+	 * inS = ${from} must access ${to} through its API (S/1)
+	 * outS = InvoiceLineServiceImpl must access BusinessOperation through its API (S/1)
+	 * 
+	 * @param context
+	 * @param inS
+	 * @return outS
+	 * @throws UndeclaredVariableException
+	 */
 	public static String parse(EvaluationContext context, String inS) throws UndeclaredVariableException {
 		StringBuffer outS = new StringBuffer();
 		Matcher varMatcher = var.matcher(inS);
@@ -39,10 +58,5 @@ public final class VariableParser {
 			pos = hasAnotherVar ? varMatcher.end() : -1;
 		}
 		return outS.toString();
-	}
-
-	static private Pattern var = Pattern.compile("\\$\\{([A-Za-z0-9_\\.\\-]+)\\}");
-
-	private VariableParser() {
 	}
 }
