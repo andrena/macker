@@ -1,3 +1,6 @@
+Version 1.0.6:
+* Speed improvement by almost factor 2
+
 Version 1.0.5:
 * is built itself with Java 8
 * fixes javadoc problem with Java 8 (doclint must be turned off in pom.xml)
