@@ -1,5 +1,7 @@
 Version 1.0.6:
 * Speed improvement by almost factor 2
+* Bugfix: The rules project is stored in preferences now, and the rules directory searched inside it.
+
 
 Version 1.0.5:
 * is built itself with Java 8
