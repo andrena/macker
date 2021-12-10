@@ -68,11 +68,11 @@ import de.andrena.tools.macker.util.EnumeratedType;
  * </table>
  */
 public class RadixMap extends AbstractMap {
-	public RadixMap(Radix radix) {
+	public RadixMap(final Radix radix) {
 		this.radix = radix;
 	}
 
-	public RadixMap(Radix radix, Map otherMap) {
+	public RadixMap(final Radix radix, final Map otherMap) {
 		this(radix);
 		putAll(otherMap);
 	}
@@ -88,21 +88,21 @@ public class RadixMap extends AbstractMap {
 	}
 
 	@Override
-	public boolean containsKey(Object key) {
-		RadixTree tree = getRadixTree(key, false);
-		return (tree == null) ? true : tree.hasValue();
+	public boolean containsKey(final Object key) {
+		final RadixTree tree = getRadixTree(key, false);
+		return tree == null ? true : tree.hasValue();
 	}
 
 	@Override
-	public Object get(Object key) {
-		RadixTree tree = getRadixTree(key, false);
-		return (tree == null) ? null : tree.getValue();
+	public Object get(final Object key) {
+		final RadixTree tree = getRadixTree(key, false);
+		return tree == null ? null : tree.getValue();
 	}
 
 	@Override
-	public Object put(Object key, Object value) {
-		RadixTree tree = getRadixTree(key, true);
-		Object oldValue = tree.getValue();
+	public Object put(final Object key, final Object value) {
+		final RadixTree tree = getRadixTree(key, true);
+		final Object oldValue = tree.getValue();
 		tree.setValue(value);
 		size++;
 		version++;
@@ -110,11 +110,12 @@ public class RadixMap extends AbstractMap {
 	}
 
 	@Override
-	public Object remove(Object key) {
-		RadixTree tree = getRadixTree(key, false);
-		if (tree == null || !tree.hasValue())
+	public Object remove(final Object key) {
+		final RadixTree tree = getRadixTree(key, false);
+		if (tree == null || !tree.hasValue()) {
 			return null;
-		Object oldValue = tree.getValue();
+		}
+		final Object oldValue = tree.getValue();
 		tree.removeValue();
 		size--;
 		version++;
@@ -131,11 +132,12 @@ public class RadixMap extends AbstractMap {
 
 	@Override
 	public Set keySet() {
-		if (keys == null)
+		if (keys == null) {
 			keys = new AbstractSet() {
 				@Override
 				public java.util.Iterator iterator() {
-					return new Iterator(root.getInitialPosition(), root, IteratorType.ENTRIES);
+					return new Iterator(root.getInitialPosition(), root,
+							IteratorType.ENTRIES);
 				}
 
 				@Override
@@ -144,7 +146,7 @@ public class RadixMap extends AbstractMap {
 				}
 
 				@Override
-				public boolean remove(Object obj) {
+				public boolean remove(final Object obj) {
 					return RadixMap.this.remove(obj) != null;
 				}
 
@@ -153,16 +155,18 @@ public class RadixMap extends AbstractMap {
 					RadixMap.this.clear();
 				}
 			};
+		}
 		return keys;
 	}
 
 	@Override
 	public Collection values() {
-		if (values == null)
+		if (values == null) {
 			values = new AbstractCollection() {
 				@Override
 				public java.util.Iterator iterator() {
-					return new Iterator(root.getInitialPosition(), root, IteratorType.VALUES);
+					return new Iterator(root.getInitialPosition(), root,
+							IteratorType.VALUES);
 				}
 
 				@Override
@@ -175,16 +179,18 @@ public class RadixMap extends AbstractMap {
 					RadixMap.this.clear();
 				}
 			};
+		}
 		return values;
 	}
 
 	@Override
 	public Set entrySet() {
-		if (entries == null)
+		if (entries == null) {
 			entries = new AbstractSet() {
 				@Override
 				public java.util.Iterator iterator() {
-					return new Iterator(root.getInitialPosition(), root, IteratorType.ENTRIES);
+					return new Iterator(root.getInitialPosition(), root,
+							IteratorType.ENTRIES);
 				}
 
 				@Override
@@ -193,10 +199,11 @@ public class RadixMap extends AbstractMap {
 				}
 
 				@Override
-				public boolean remove(Object obj) {
-					if (!(obj instanceof RadixMap.Entry))
+				public boolean remove(final Object obj) {
+					if (!(obj instanceof RadixMap.Entry)) {
 						return false;
-					RadixMap.Entry entry = (RadixMap.Entry) obj;
+					}
+					final RadixMap.Entry entry = (RadixMap.Entry) obj;
 					return RadixMap.this.remove(entry.getKey()) != null;
 				}
 
@@ -205,6 +212,7 @@ public class RadixMap extends AbstractMap {
 					RadixMap.this.clear();
 				}
 			};
+		}
 		return entries;
 	}
 
@@ -212,16 +220,18 @@ public class RadixMap extends AbstractMap {
 		return radix;
 	}
 
-	private RadixTree getRadixTree(Object value, boolean create) {
-		int valueMaxPos = radix.getMaxPosition(value), valueMinPos = radix.getMinPosition(value);
+	private RadixTree getRadixTree(final Object value, final boolean create) {
+		final int valueMaxPos = radix.getMaxPosition(value), valueMinPos = radix
+				.getMinPosition(value);
 
 		if (root == null || root.getInitialPosition() < valueMaxPos) {
-			if (!create)
+			if (!create) {
 				return null;
-			// inserting ahead of root ... tricky
-			// root = new RadixTree(valueMaxPos);
-			// ////////////
-			// return ..............;
+				// inserting ahead of root ... tricky
+				// root = new RadixTree(valueMaxPos);
+				// ////////////
+				// return ..............;
+			}
 
 			root = new RadixTree(value, valueMaxPos, valueMinPos);
 
@@ -229,11 +239,12 @@ public class RadixMap extends AbstractMap {
 
 		RadixTree curTree = root;
 		for (int pos = valueMaxPos; pos >= valueMinPos; pos--) {
-			int digit = radix.digit(value, pos);
+			final int digit = radix.digit(value, pos);
 			RadixTree nextTree = curTree.getChild(pos, digit);
 			if (nextTree == null) {
-				if (!create)
+				if (!create) {
 					return null;
+				}
 				nextTree = new RadixTree(value, pos - 1, valueMinPos);
 				curTree.setChild(pos, digit, nextTree);
 				// return curTree;
@@ -244,36 +255,45 @@ public class RadixMap extends AbstractMap {
 	}
 
 	private class RadixTree {
-		public RadixTree(Object value, int maxPos, int minPos) {
+		public RadixTree(final Object value, final int maxPos, final int minPos) {
 			this.minPos = this.maxPos = maxPos;
-			if (minPos <= maxPos)
-				setChild(maxPos, radix.digit(value, maxPos), new RadixTree(value, maxPos - 1, minPos));
+			if (minPos <= maxPos) {
+				setChild(maxPos, radix.digit(value, maxPos), new RadixTree(
+						value, maxPos - 1, minPos));
+			}
 		}
 
 		public int getInitialPosition() {
 			return minPos;
 		}
 
-		public RadixTree getChild(int position, int digit) {
-			if (position < minPos || position > maxPos)
-				throw new IllegalArgumentException("illegal position (" + position + " not in [" + minPos + ","
-						+ maxPos + "])");
-			if (children == null)
+		public RadixTree getChild(final int position, final int digit) {
+			if (position < minPos || position > maxPos) {
+				throw new IllegalArgumentException("illegal position ("
+						+ position + " not in [" + minPos + "," + maxPos + "])");
+			}
+			if (children == null) {
 				return null;
+			}
 			return children[digit];
 		}
 
-		public void setChild(int position, int digit, RadixTree tree) {
-			if (position < minPos || position > maxPos)
-				throw new IllegalArgumentException("illegal position (" + position + " not in [" + minPos + ","
-						+ maxPos + "])");
-			if (digit < 0 || digit > radix.getBase())
-				throw new IllegalArgumentException("illegal digit (" + digit + " not in [" + 0 + ","
-						+ (children.length - 1) + "])");
-			if (children == null)
+		public void setChild(final int position, final int digit,
+				final RadixTree tree) {
+			if (position < minPos || position > maxPos) {
+				throw new IllegalArgumentException("illegal position ("
+						+ position + " not in [" + minPos + "," + maxPos + "])");
+			}
+			if (digit < 0 || digit > radix.getBase()) {
+				throw new IllegalArgumentException("illegal digit (" + digit
+						+ " not in [" + 0 + "," + (children.length - 1) + "])");
+			}
+			if (children == null) {
 				children = new RadixTree[radix.getBase()];
-			if ((children[digit] == null) != (tree == null))
-				childCount += (tree == null) ? -1 : 1;
+			}
+			if (children[digit] == null != (tree == null)) {
+				childCount += tree == null ? -1 : 1;
+			}
 			children[digit] = tree;
 		}
 
@@ -285,7 +305,7 @@ public class RadixMap extends AbstractMap {
 			return value;
 		}
 
-		public void setValue(Object value) {
+		public void setValue(final Object value) {
 			hasValue = true;
 			this.value = value;
 		}
@@ -299,26 +319,32 @@ public class RadixMap extends AbstractMap {
 			return !hasValue && childCount == 0;
 		}
 
-		public void dumpTree(int i) {
-			for (int n = i; n > 0; n--)
+		public void dumpTree(final int i) {
+			for (int n = i; n > 0; n--) {
 				System.out.print(' ');
+			}
 			System.out.println("tree @ " + maxPos);
 			if (hasValue) {
-				for (int n = i; n > 0; n--)
+				for (int n = i; n > 0; n--) {
 					System.out.print(' ');
+				}
 				System.out.println("value: " + value);
 			}
-			if (children != null)
-				for (int child = 0; child < children.length; child++)
+			if (children != null) {
+				for (int child = 0; child < children.length; child++) {
 					if (children[child] != null) {
-						for (int n = i; n > 0; n--)
+						for (int n = i; n > 0; n--) {
 							System.out.print(' ');
+						}
 						System.out.println(child + ": ");
 						children[child].dumpTree(i + 3);
 					}
+				}
+			}
 		}
 
-		private int minPos, maxPos;
+		private final int minPos;
+		private int maxPos;
 		private boolean hasValue;
 		private Object value;
 		private int childCount;
@@ -326,11 +352,6 @@ public class RadixMap extends AbstractMap {
 	}
 
 	private class Entry implements Map.Entry {
-		public Entry(Object key, Object value) {
-			this.key = key;
-			this.value = value;
-		}
-
 		public Object getKey() {
 			return key;
 		}
@@ -339,21 +360,24 @@ public class RadixMap extends AbstractMap {
 			return value;
 		}
 
-		public Object setValue(Object value) {
-			Object oldValue = value;
+		public Object setValue(final Object value) {
+			final Object oldValue = value;
 			this.value = value;
 			return oldValue;
 		}
 
 		@Override
-		public boolean equals(Object that) {
-			if (this == that)
+		public boolean equals(final Object that) {
+			if (this == that) {
 				return true;
-			if (that == null || !(that instanceof Map.Entry))
+			}
+			if (that == null || !(that instanceof Map.Entry)) {
 				return false;
-			Map.Entry thatEntry = (Map.Entry) that;
+			}
+			final Map.Entry thatEntry = (Map.Entry) that;
 			return key.equals(thatEntry.getKey())
-					&& (value == null ? thatEntry.getValue() == null : value.equals(thatEntry.getValue()));
+					&& (value == null ? thatEntry.getValue() == null : value
+							.equals(thatEntry.getValue()));
 		}
 
 		@Override
@@ -366,52 +390,61 @@ public class RadixMap extends AbstractMap {
 	}
 
 	private static class IteratorType extends EnumeratedType {
-		public static final IteratorType KEYS = new IteratorType("keys"), VALUES = new IteratorType("values"),
+		public static final IteratorType KEYS = new IteratorType("keys"),
+				VALUES = new IteratorType("values"),
 				ENTRIES = new IteratorType("entries");
 
-		private IteratorType(String name) {
+		private IteratorType(final String name) {
 			super(name);
 		}
 	}
 
 	private class Iterator implements java.util.Iterator {
-		public Iterator(int position, RadixTree tree, IteratorType type) {
+		public Iterator(final int position, final RadixTree tree,
+				final IteratorType type) {
 			this.position = position;
 			this.tree = tree;
 			this.type = type;
 			expectedVersion = version;
 			curDigit = -1;
-			if (tree != null)
+			if (tree != null) {
 				handledValue = !tree.hasValue();
+			}
 		}
 
 		public boolean hasNext() {
 			checkModification();
-			if (tree == null)
+			if (tree == null) {
 				return false;
-			if (curIter != null && curIter.hasNext())
+			}
+			if (curIter != null && curIter.hasNext()) {
 				return true;
-			if (!handledValue)
+			}
+			if (!handledValue) {
 				return true;
+			}
 			for (nextDigit = curDigit + 1; nextDigit < radix.getBase(); nextDigit++) {
-				RadixTree subTree = tree.getChild(position, nextDigit);
+				final RadixTree subTree = tree.getChild(position, nextDigit);
 				if (subTree != null) {
 					nextIter = new Iterator(position - 1, subTree, type);
-					if (nextIter.hasNext())
+					if (nextIter.hasNext()) {
 						return true;
+					}
 				}
 			}
 			return false;
 		}
 
 		public Object next() {
-			if (!hasNext())
+			if (!hasNext()) {
 				throw new NoSuchElementException();
+			}
 
 			if (!handledValue) {
 				handledValue = true;
-				if (type == IteratorType.VALUES)
+				if (type == IteratorType.VALUES) {
 					return tree.getValue();
+				}
 				throw new UnsupportedOperationException();
 			}
 
@@ -427,17 +460,20 @@ public class RadixMap extends AbstractMap {
 				return;
 			}
 			checkModification();
-			if (tree == null || !tree.hasValue())
+			if (tree == null || !tree.hasValue()) {
 				throw new IllegalStateException("no element to remove");
+			}
 			tree.removeValue();
 			size--;
 			expectedVersion = ++version;
 		}
 
 		private void checkModification() {
-			if (version != expectedVersion)
-				throw new ConcurrentModificationException("radix map modified (" + version + " != " + expectedVersion
-						+ ")");
+			if (version != expectedVersion) {
+				throw new ConcurrentModificationException(
+						"radix map modified (" + version + " != "
+								+ expectedVersion + ")");
+			}
 		}
 
 		private final int position;
@@ -450,7 +486,7 @@ public class RadixMap extends AbstractMap {
 	}
 
 	private int size;
-	private Radix radix;
+	private final Radix radix;
 	private RadixTree root;
 	private Set keys, entries;
 	private Collection values;

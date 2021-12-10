@@ -1,0 +1,187 @@
+body {
+    background-color : #F8F8F8;
+    color:#FFF;
+    font-family: Palatino,Georgia,Times;
+}
+A:link    { color:#FF6; }
+A:visited { color:#DD8; }
+A:active  { color:#FF0; }
+
+.title {
+    background-color : #CCD;
+    color : #000;
+    margin  : .5em 0em .5em 0em;
+    padding : .14cm .14cm .14cm .4cm;
+    border-style : solid;
+    border-color : #AAA;
+    border-width : 1px;
+    font-family : Baskerville,Georgia,Palatino,Times,Times New Roman;
+    font-size : 2.4em;
+    font-weight : bold;
+}
+
+.ruleset {
+    margin : 1em 0em .5em 2em;
+}
+.ruleset-header {
+    background-color:#DDE;
+    color : #000;
+    padding : .14cm .14cm .14cm 1em;
+    border-style : solid;
+    border-color : #BBB;
+    border-width : 1px;
+    font-family : Baskerville,Georgia,Palatino,Times,Times New Roman;
+    font-size : 1.6em;
+    font-weight : normal;
+}
+.ruleset-summary {
+	font-size : 11px;
+	font-weight : bold;
+}
+.ruleset-body {
+}
+
+.foreach {
+    margin : 1em 0em .5em 1.6em;
+}
+.foreach-header {
+    background-color : #DDE;
+    color : #000;
+    padding : .14cm .14cm .14cm 1.2em;
+    border : 1px;
+    border-style : solid;
+    border-color : #CCC;
+    border-width : 1px;
+    font-family : Verdana,Geneva,Helvetica;
+    font-size   : 1em;
+    font-weight : bold;
+}
+.foreach-header .var {
+    font-weight : normal;
+}
+.foreach-header .value {
+    font-weight : bold;
+}
+.foreach-body {
+}
+
+.event {
+    margin : .3em 1em .3em 1.6em;
+    padding : .4em .7em .4em .7em;
+    font-family : Verdana,Geneva,Helvetica;
+    background-color : #ECECEC;
+    color : #000;
+}
+.event-header {	
+	font-size : 1em;
+	text-align : left;
+}
+.event-header td {
+    font-weight : normal;
+}
+.event-severity-error {
+    float : right;
+	padding : 2px 4px;
+    margin : 0em 0em .4em 1em;
+    font-family : Monaco,Geneva,Verdana;
+	font-size : 9px;
+	font-variant : caps;
+	font-weight : bold;
+	color : #000;
+    border-style : solid;
+    border-width : 1px;
+	background-color : #F22;
+    border-color : #200;
+    text-transform : uppercase;
+}
+.event-severity-warning {
+    float : right;
+	padding : 2px 4px;
+    margin : 0em 0em .4em 1em;
+    font-family : Monaco,Geneva,Verdana;
+	font-size : 9px;
+	font-variant : caps;
+	font-weight : bold;
+	color : #000;
+    border-style : solid;
+    border-width : 1px;
+	background-color : #FD0;
+    border-color : #210;
+    text-transform : uppercase;
+}
+.event-severity-info {
+    float : right;
+	padding : 2px 4px;
+    margin : 0em 0em .4em 1em;
+    font-family : Monaco,Geneva,Verdana;
+	font-size : 9px;
+	font-variant : caps;
+	font-weight : bold;
+	color : #888;
+    border-style : solid;
+    border-width : 1px;
+	background-color : #CCC;
+    border-color : #AAA;
+    text-transform : uppercase;
+}
+.event-severity-ok {
+    float : right;
+	padding : 2px 4px;
+    margin : 0em 0em .4em 1em;
+    font-family : Monaco,Geneva,Verdana;
+	font-size : 9px;
+	font-variant : caps;
+	font-weight : bold;
+	color : #000;
+    border-style : solid;
+    border-width : 1px;
+	background-color : #1E1;
+    border-color : #030;
+    text-transform : uppercase;
+}
+.event-body {
+    font-size : 11px;
+}
+.event-body {
+	padding : 0em 0em 0em 10%;
+    margin : 0em 0em 0em 0em;
+}
+.event-body th {
+    text-align : right;
+    align : bottom;
+    color : #777;
+    font-weight : normal;
+    font-size : 0.86em;
+    padding : 0em 0em 0em 0em;
+    margin : 0em 0em 0em 0em;
+    vertical-align: baseline;
+}
+.event-body td {
+    padding : 0em 0em 0em 0em;
+    margin : 0em 0em 0em 0em;
+    vertical-align: baseline;
+}
+.event-body .package-name {
+	color : #555;
+    font-size : 0.86em;
+	font-weight: normal;
+}
+.event-body .class-name {
+	color : #555;
+    font-size : 0.86em;
+	font-weight: bold;
+}
+
+.bottom {
+    color : #888;
+    background : #444;
+    margin : 2em 0em;
+    padding : 4px 4px 4px .4cm;
+    font-family : Verdana,Geneva,Helvetica;
+    font-weight : bold;
+    font-size : 10px;
+}
+.bottom A, .bottom A:link, .bottom A:visited {
+    color : #CCC;
+    text-decoration : none;
+}

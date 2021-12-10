@@ -23,6 +23,9 @@ package de.andrena.tools.macker.rule;
 import de.andrena.tools.macker.event.MackerIsMadException;
 import de.andrena.tools.macker.structure.ClassManager;
 
+/**
+ * Processes <var> tags in rule XML files.
+ */
 public class Variable extends Rule {
 	public Variable(RuleSet parent, String name, String value) {
 		super(parent);
@@ -47,7 +50,8 @@ public class Variable extends Rule {
 	}
 
 	public void check(EvaluationContext context, ClassManager classes) throws RulesException, MackerIsMadException {
-		context.setVariableValue(getVariableName(), getValue());
+		// Substitution of <variable> values from rules.xml files makes sense
+		context.setVariableValueWithSubstitution(getVariableName(), getValue());
 	}
 
 	private String variableName, value;

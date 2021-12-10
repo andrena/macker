@@ -46,7 +46,8 @@ public abstract class AbstractClassInfo implements ClassInfo {
 	public Set<ClassInfo> getDirectSupertypes() {
 		if (cachedAllDirectSuper == null) {
 			Set<ClassInfo> newAllDirectSuper = new HashSet<ClassInfo>(getImplements());
-			newAllDirectSuper.add(getExtends());
+			ClassInfo superClass = getExtends();
+			if (superClass!=null) newAllDirectSuper.add(superClass); // fix possible NPE
 			cachedAllDirectSuper = newAllDirectSuper; // failure atomicity
 		}
 		return cachedAllDirectSuper;

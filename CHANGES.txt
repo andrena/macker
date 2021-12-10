@@ -1,3 +1,20 @@
+Version 1.0.6:
+* Speed improvement by almost factor 2
+* Bugfix: The rules project is stored in preferences now, and the rules directory searched inside it.
+
+
+Version 1.0.5:
+* is built itself with Java 8
+* fixes javadoc problem with Java 8 (doclint must be turned off in pom.xml)
+
+Version 1.0.4:
+* Closing InputStreams in several cases fixed "too many open files" on Linux.
+
+Version 1.0.3:
+* Fixed NullPointerException when a rule applies to java.lang.Object, so that there is no superclass
+* added files from original macker 0.4.2 required for html report
+* updated required libraries
+
 Version 1.0.2:
 * Fixed XML validation requiring internet connection.
 

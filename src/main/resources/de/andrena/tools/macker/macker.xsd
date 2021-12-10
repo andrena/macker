@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+	<xs:element name="macker" type="tMacker" />
+
+	<xs:complexType name="tMacker">
+		<xs:sequence>
+			<xs:element name="ruleset" type="tRuleset" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="tRuleset">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="pattern" type="tPattern" />
+				<xs:element name="access-rule" type="tAccess-rule" />
+				<xs:element name="var" type="tVar" />
+				<xs:element name="foreach" type="tForeach" />
+				<xs:element name="ruleset" type="tRuleset" />
+				<xs:element name="subset" type="tSubset" />
+				<xs:element name="message" type="tMessage" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" />
+		<xs:attribute name="severity" type="tSeverity" />
+	</xs:complexType>
+
+	<xs:complexType name="tSubset">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="include" type="tIncludeExclude" />
+				<xs:element name="exclude" type="tIncludeExclude" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="pattern" type="xs:string" />
+		<xs:attribute name="regex" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="tVar">
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="value" type="xs:string" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="tForeach">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="pattern" type="tPattern" />
+				<xs:element name="access-rule" type="tAccess-rule" />
+				<xs:element name="var" type="tVar" />
+				<xs:element name="foreach" type="tForeach" />
+				<xs:element name="ruleset" type="tRuleset" />
+				<xs:element name="subset" type="tSubset" />
+				<xs:element name="message" type="tMessage" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="var" type="xs:string" use="required" />
+		<xs:attribute name="class" type="xs:string" />
+		<xs:attribute name="severity" type="tSeverity" />
+	</xs:complexType>
+
+	<xs:complexType name="tPattern">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="include" type="tIncludeExclude" />
+				<xs:element name="exclude" type="tIncludeExclude" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required" />
+		<xs:attribute name="pattern" type="xs:string" />
+		<xs:attribute name="class" type="xs:string" />
+		<xs:attribute name="filter" type="xs:string" />
+		<xs:attribute name="max" type="xs:string" />
+		<xs:attribute name="min" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="tIncludeExclude">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="include" type="tIncludeExclude" />
+				<xs:element name="exclude" type="tIncludeExclude" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="pattern" type="xs:string" />
+		<xs:attribute name="class" type="xs:string" />
+		<xs:attribute name="filter" type="xs:string" />
+		<xs:attribute name="max" type="xs:string" />
+		<xs:attribute name="min" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="tAccess-rule">
+		<xs:sequence>
+			<xs:element name="message" type="tMessage" minOccurs="0" />
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="allow" type="tAllowDeny" />
+				<xs:element name="deny" type="tAllowDeny" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="severity" type="tSeverity" />
+	</xs:complexType>
+
+	<xs:complexType name="tAllowDeny">
+		<xs:sequence>
+			<xs:element name="from" type="tFromTo" minOccurs="0" />
+			<xs:element name="to" type="tFromTo" minOccurs="0" />
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="allow" type="tAllowDeny" minOccurs="0" />
+				<xs:element name="deny" type="tAllowDeny" minOccurs="0" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="tFromTo">
+		<xs:sequence>
+			<xs:choice maxOccurs="unbounded" minOccurs="0">
+				<xs:element name="include" type="tIncludeExclude" />
+				<xs:element name="exclude" type="tIncludeExclude" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="pattern" type="xs:string" />
+		<xs:attribute name="class" type="xs:string" />
+		<xs:attribute name="filter" type="xs:string" />
+		<xs:attribute name="max" type="xs:string" />
+		<xs:attribute name="min" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="tMessage">
+		<xs:simpleContent>
+			<xs:extension base="xs:string" />
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:attribute name="severity" type="tSeverity" />
+
+	<xs:simpleType name="tSeverity">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="error" />
+			<xs:enumeration value="warning" />
+			<xs:enumeration value="info" />
+			<xs:enumeration value="debug" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

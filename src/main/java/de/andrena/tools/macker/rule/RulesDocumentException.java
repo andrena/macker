@@ -20,7 +20,7 @@
 
 package de.andrena.tools.macker.rule;
 
-import org.jdom.Element;
+import org.jdom2.Element;
 
 /**
  * Indicates a structural exception in rules specification XML.

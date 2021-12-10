@@ -112,13 +112,7 @@ public class Macker {
 				else if (args[arg].equals("-r") || args[arg].equals("--rulesfile"))
 					nextIsRule = true;
 				else if (args[arg].startsWith("@"))
-					macker.addClassesFromFile(args[arg].substring(1)); // the
-																		// arg
-																		// is a
-																		// file
-																		// with
-																		// class
-																		// names
+					macker.addClassesFromFile(args[arg].substring(1)); // the arg is a file with class names
 				else if (args[arg].endsWith(".xml") || nextIsRule) {
 					macker.addRulesFile(new File(args[arg]));
 					nextIsRule = false;
@@ -177,10 +171,7 @@ public class Macker {
 		cm.makePrimary(cm.readClass(classFile));
 	}
 
-	public void addClass(InputStream classFile) throws IOException, ClassParseException {
-		cm.makePrimary(cm.readClass(classFile));
-	}
-
+	// Note: This method is never called.
 	public void addClass(String className) throws ClassNotFoundException {
 		cm.makePrimary(cm.getClassInfo(className));
 	}
@@ -196,6 +187,7 @@ public class Macker {
 		indexReader.close();
 	}
 
+	// Note: This method is never called.
 	public void addReachableClasses(Class<?> initialClass, final String primaryPrefix)
 			throws IncompleteClassInfoException {
 		addReachableClasses(initialClass.getName(), primaryPrefix);

@@ -59,9 +59,25 @@ public class EvaluationContext {
 	public RuleSet getRuleSet() {
 		return ruleSet;
 	}
-
+	
+	/**
+	 * Set variable value with substitution of variables in the value string.
+	 * @param name
+	 * @param value
+	 * @throws UndeclaredVariableException
+	 */
+	public void setVariableValueWithSubstitution(String name, String value) throws UndeclaredVariableException {
+		varValues.put(name, (value==null) ? "" : VariableParser.parse(this, value));
+	}
+	
+	/**
+	 * Set variable value without substitution of variables in the value string.
+	 * @param name
+	 * @param value
+	 * @throws UndeclaredVariableException
+	 */
 	public void setVariableValue(String name, String value) throws UndeclaredVariableException {
-		varValues.put(name, (value == null) ? "" : VariableParser.parse(this, value));
+		varValues.put(name, (value==null) ? "" : value);
 	}
 
 	public String getVariableValue(String name) throws UndeclaredVariableException {

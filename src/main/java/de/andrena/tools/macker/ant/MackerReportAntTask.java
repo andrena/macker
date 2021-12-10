@@ -23,6 +23,7 @@ package de.andrena.tools.macker.ant;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -37,6 +38,7 @@ import org.apache.tools.ant.Task;
 
 import de.andrena.tools.macker.Macker;
 import de.andrena.tools.macker.util.StreamSplitter;
+import de.andrena.tools.macker.util.io.StreamUtil;
 
 /**
  * A task which formats Macker reports using XSLT. Requires Xalan 2 or some
@@ -129,19 +131,29 @@ public class MackerReportAntTask extends Task {
 
 		File outputDir = outputFile.getParentFile();
 
+		InputStream formatUrlInputStream = null;
+		InputStream reportUrlInputStream = null;
+		FileOutputStream outputFileStream = null;
 		try {
-			Transformer transformer = tFactory.newTransformer(new StreamSource(formatUrl.openStream()));
-			transformer.transform(new StreamSource(reportUrl.openStream()), new StreamResult(new FileOutputStream(
-					outputFile)));
+			formatUrlInputStream = formatUrl.openStream();
+			reportUrlInputStream = reportUrl.openStream();
+			outputFileStream = new FileOutputStream(outputFile);
+			Transformer transformer = tFactory.newTransformer(new StreamSource(formatUrlInputStream));
+			transformer.transform(new StreamSource(reportUrlInputStream), new StreamResult(outputFileStream));
 		} catch (IOException ioe) {
 			throw new BuildException("Unable to process report: " + ioe, ioe);
 		} catch (TransformerException te) {
 			throw new BuildException("Unable to apply report formatting: " + te.getMessage(), te);
 		}
 
+		StreamUtil.closeStream(formatUrlInputStream);
+		StreamUtil.closeStream(reportUrlInputStream);
+		StreamUtil.closeStream(outputFileStream);
+		
 		File skinOutputFile = new File(outputDir, "macker-report.css");
 		try {
 			new StreamSplitter(skinUrl.openStream(), new FileOutputStream(skinOutputFile)).run();
+			// Streams are closed at the end of the run() method
 		} catch (IOException ioe) {
 			throw new BuildException("Unable to copy skin to " + skinOutputFile, ioe);
 		}

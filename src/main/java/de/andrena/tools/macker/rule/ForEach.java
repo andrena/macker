@@ -33,6 +33,9 @@ import de.andrena.tools.macker.event.MackerIsMadException;
 import de.andrena.tools.macker.structure.ClassInfo;
 import de.andrena.tools.macker.structure.ClassManager;
 
+/**
+ * Processes <foreach> tags in rule XML files.
+ */
 public class ForEach extends Rule {
 	public ForEach(RuleSet parent) {
 		super(parent);

@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/andrena/macker.svg)](https://travis-ci.org/andrena/macker)
-
-
 [Documentation and examples](http://innig.net/macker/guide/)
 
 This is a [fork from innig.net](http://innig.net/macker/) ([source](http://sourceforge.net/p/macker/code/177/tree/trunk/macker/)), who initiated and developed this project.

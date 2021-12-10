@@ -9,10 +9,10 @@ import java.io.Writer;
 import java.util.LinkedList;
 
 import org.apache.commons.lang.StringUtils;
-import org.jdom.Document;
-import org.jdom.Element;
-import org.jdom.output.Format;
-import org.jdom.output.XMLOutputter;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import de.andrena.tools.macker.rule.RuleSet;
 import de.andrena.tools.macker.structure.ClassInfo;
